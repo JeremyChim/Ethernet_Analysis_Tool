@@ -50,12 +50,12 @@ class udp_data():
 
     def packet_count(self, udp_data):
         """帧计数器，0 至 FFFF 循环计数"""
-        log = f'帧计数器: {udp_data}'
+        log = f'帧计数器: 0x{udp_data}'
         return udp_data, log
 
     def length(self, udp_data):
         """数据帧的字节长度"""
-        log = f'数据帧的字节长度: {hex(int(udp_data))}'
+        log = f'数据帧的字节长度: 0x{udp_data}'
         return udp_data, log
 
     def message_type(self, udp_data):
@@ -85,8 +85,11 @@ class udp_data():
         return udp_data, log
 
 if __name__ == '__main__':
-    a = '0011031900000077000001465609d51b00000000'
+    a = '0011FFFF00000077000001465609d51b00000000'
     b = udp_data(a)
     c = b.log()
     # c = b.crc_value('5609d51b')
     print(c)
+
+    for i in range(len(c)):
+        print(c[i][0]+',',c[i][1])
