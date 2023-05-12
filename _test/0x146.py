@@ -8,7 +8,7 @@
 from openpyxl import Workbook
 import openpyxl
 
-path='config.xlsx'
+path= '../function/config.xlsx'
 wb = openpyxl.load_workbook(path)
 ws = wb.worksheets[0]
 
