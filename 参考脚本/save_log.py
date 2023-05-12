@@ -1,6 +1,6 @@
+import datetime
 
 def save_log():
-    import datetime
     t = str(datetime.datetime.now())
     t = t.replace('-','')\
         .replace(':','')

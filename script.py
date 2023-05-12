@@ -3,7 +3,7 @@
 # @Auth ： JeremyChim
 # @File ：script.py
 # @IDE ：PyCharm
-# @Github ：https://github.com/JeremyChim
+# @Github ：https://github.com/JeremyChim/Ethernet_Analysis_Tool
 
 class udp_data():
 
@@ -60,7 +60,7 @@ class udp_data():
 
     def message_type(self, udp_data):
         """数据帧的数据类型，根据 message_type 的值，可区分数据包内容，比如 100ms 还是 200ms 的数"""
-        log = f'数据帧的数据类型: 0x{int(udp_data)}'
+        log = f'数据帧的数据类型: 0x{udp_data}'
         return udp_data, log
 
     def crc_value(self, udp_data):
@@ -86,6 +86,7 @@ class udp_data():
 
 if __name__ == '__main__':
     a = '0011FFFF00000077000001465609d51b00000000'
+    a = '001117560000000b000002719484712500000000001e63d40101000098acbf'
     b = udp_data(a)
     c = b.log()
     # c = b.crc_value('5609d51b')
