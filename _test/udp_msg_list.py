@@ -41,7 +41,7 @@ class udp_data():
         print(self.len_lst)
 
     def cut(self):
-        wb = openpyxl.load_workbook(filename='../function/config.xlsx')
+        wb = openpyxl.load_workbook(filename='../function/config/config.xlsx')
         lst = []
         for i in range(self.l):
             i = self.ws_lst[i]
