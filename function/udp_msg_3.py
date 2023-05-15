@@ -11,18 +11,33 @@ import csv
 
 class udp_data():
 
-    def __init__(self, udp_data):
+    def __init__(self, udp_data, row):
         self.data = udp_data
         self.id = self.data[16:24]
         self.msg = self.data[40:]
+        self.row = row
 
-    def run(self):
+    def cr_title(self):
         self.config()
-        self.cut()
-        self.go_int()
-        self.calc()
-        self.op()
-        # self.wri()
+        self.title()
+
+    def log(self):
+        if self.id == '00000146':
+            self.config()
+            self.cut()
+            self.go_int()
+            self.calc()
+            self.op()
+            self.wri()
+            self.save()
+        elif self.id == '0000017f':
+            self.config()
+            self.cut()
+            self.go_int()
+            self.calc()
+            self.op()
+            self.wri()
+            self.save()
 
     def config(self):
         self.wb = openpyxl.load_workbook(filename='config.xlsx')
@@ -32,12 +47,12 @@ class udp_data():
         elif self.id == '0000017f':
             self.ws = self.wb.worksheets[1]
             self.len = 33
-        elif self.id == '00000271':
-            self.ws = self.wb.worksheets[2]
-            self.len = 7
-        elif self.id == '0000031b':
-            self.ws = self.wb.worksheets[3]
-            self.len = 30
+        # elif self.id == '00000271':
+        #     self.ws = self.wb.worksheets[2]
+        #     self.len = 7
+        # elif self.id == '0000031b':
+        #     self.ws = self.wb.worksheets[3]
+        #     self.len = 30
 
     def title(self):
         if self.id == '00000146':
@@ -45,29 +60,29 @@ class udp_data():
             self.ws2 = self.wb2.create_sheet(title='UDP_MSG_146', index=0)
             for i in range(2, self.len):
                 self.ws2.cell(1, i).value = self.ws.cell(i, 1).value
-            self.wb2.save('UDP_MSG_146.csv')
+            self.wb2.save('UDP_MSG_146.xlsx')
             self.wb2.close()
         elif self.id == '0000017f':
             self.wb2 = Workbook()
             self.ws2 = self.wb2.create_sheet(title='UDP_MSG_17F', index=0)
             for i in range(2, self.len):
                 self.ws2.cell(1, i).value = self.ws.cell(i, 1).value
-            self.wb2.save('UDP_MSG_17F.csv')
+            self.wb2.save('UDP_MSG_17F.xlsx')
             self.wb2.close()
-        elif self.id == '00000271':
-            self.wb2 = Workbook()
-            self.ws2 = self.wb2.create_sheet(title='UDP_MSG_271', index=0)
-            for i in range(2, self.len):
-                self.ws2.cell(1, i).value = self.ws.cell(i, 1).value
-            self.wb2.save('UDP_MSG_271.csv')
-            self.wb2.close()
-        elif self.id == '0000031b':
-            self.wb2 = Workbook()
-            self.ws2 = self.wb2.create_sheet(title='UDP_MSG_31B', index=0)
-            for i in range(2, self.len):
-                self.ws2.cell(1, i).value = self.ws.cell(i, 1).value
-            self.wb2.save('UDP_MSG_31B.csv')
-            self.wb2.close()
+        # elif self.id == '00000271':
+        #     self.wb2 = Workbook()
+        #     self.ws2 = self.wb2.create_sheet(title='UDP_MSG_271', index=0)
+        #     for i in range(2, self.len):
+        #         self.ws2.cell(1, i).value = self.ws.cell(i, 1).value
+        #     self.wb2.save('UDP_MSG_271.xlsx')
+        #     self.wb2.close()
+        # elif self.id == '0000031b':
+        #     self.wb2 = Workbook()
+        #     self.ws2 = self.wb2.create_sheet(title='UDP_MSG_31B', index=0)
+        #     for i in range(2, self.len):
+        #         self.ws2.cell(1, i).value = self.ws.cell(i, 1).value
+        #     self.wb2.save('UDP_MSG_31B.xlsx')
+        #     self.wb2.close()
 
     def cut(self):
         self.hex_lst = []
@@ -75,6 +90,7 @@ class udp_data():
             a = self.ws.cell(i, 3).value * 2
             b = self.ws.cell(i, 4).value * 2 + a
             self.hex_lst.append(self.msg[a:b])
+        print(self.hex_lst)
 
     def go_int(self):
         self.int_lst = []
@@ -92,48 +108,37 @@ class udp_data():
 
     def op(self):
         if self.id == '00000146':
-            self.wb2 = openpyxl.load_workbook('UDP_MSG_146.csv')
+            self.wb2 = openpyxl.load_workbook('UDP_MSG_146.xlsx')
             self.ws2 = self.wb2.worksheets[0]
         elif self.id == '0000017f':
-            self.wb2 = openpyxl.load_workbook('UDP_MSG_17F.csv')
+            self.wb2 = openpyxl.load_workbook('UDP_MSG_17F.xlsx')
             self.ws2 = self.wb2.worksheets[0]
-        elif self.id == '00000271':
-            self.wb2 = openpyxl.load_workbook('UDP_MSG_271.csv')
-            self.ws2 = self.wb2.worksheets[0]
-        elif self.id == '0000031b':
-            self.wb2 = openpyxl.load_workbook('UDP_MSG_31B.csv')
-            self.ws2 = self.wb2.worksheets[0]
+        # elif self.id == '00000271':
+        #     self.wb2 = openpyxl.load_workbook('UDP_MSG_271.xlsx')
+        #     self.ws2 = self.wb2.worksheets[0]
+        # elif self.id == '0000031b':
+        #     self.wb2 = openpyxl.load_workbook('UDP_MSG_31B.xlsx')
+        #     self.ws2 = self.wb2.worksheets[0]
 
     def wri(self):
-        self.ws2.cell(2, 1).value = 0
+        row = self.row + 2
+        self.ws2.cell(row, 1).value = self.row
         for i in range(2, self.len):
-            self.ws2.cell(2, i).value = self.msg_lst[i - 2]
+            self.ws2.cell(row, i).value = self.msg_lst[i - 2]
 
     def save(self):
         if self.id == '00000146':
-            self.wb2.save('UDP_MSG_146.csv')
+            self.wb2.save('UDP_MSG_146.xlsx')
             self.wb2.close()
         elif self.id == '0000017f':
-            self.wb2 = Workbook()
-            self.ws2 = self.wb2.create_sheet(title='UDP_MSG_17F', index=0)
-            for i in range(2, self.len):
-                self.ws2.cell(1, i).value = self.ws.cell(i, 1).value
-            self.wb2.save('UDP_MSG_17F.csv')
+            self.wb2.save('UDP_MSG_17F.xlsx')
             self.wb2.close()
-        elif self.id == '00000271':
-            self.wb2 = Workbook()
-            self.ws2 = self.wb2.create_sheet(title='UDP_MSG_271', index=0)
-            for i in range(2, self.len):
-                self.ws2.cell(1, i).value = self.ws.cell(i, 1).value
-            self.wb2.save('UDP_MSG_271.csv')
-            self.wb2.close()
-        elif self.id == '0000031b':
-            self.wb2 = Workbook()
-            self.ws2 = self.wb2.create_sheet(title='UDP_MSG_31B', index=0)
-            for i in range(2, self.len):
-                self.ws2.cell(1, i).value = self.ws.cell(i, 1).value
-            self.wb2.save('UDP_MSG_31B.csv')
-            self.wb2.close()
+        # elif self.id == '00000271':
+        #     self.wb2.save('UDP_MSG_271.xlsx')
+        #     self.wb2.close()
+        # elif self.id == '0000031b':
+        #     self.wb2.save('UDP_MSG_31B.xlsx')
+        #     self.wb2.close()
 
 if __name__ == '__main__':
     da_146 = '0011031900000077000001465609d51b0000000000976103d0c5009cbe03cd1a00c30503cfcd0002d31e01273c271227422777274526ef09ac5e0f76640f72051d74b300000000000000000000000000001c308c0119180098b103d0b6009ccb03cd1900c32903cfcc1e83e60f42930f83e40f2ec6018002f4f17ff8eae58000247301626902bf16050bc3'
@@ -141,15 +146,15 @@ if __name__ == '__main__':
     da_271 = '001103240000000b000002710a34753700000000001c31540101000098af98'
     da_31b = '00110339000000380000031b3dbab91d00000000001704130a0820009601a97a0000016d43016ebf0187bd00c100b000c200047e00000000008c0000500000780000000000002c1600000001'
 
-    # da = udp_data(da_146)
-    # da.run()
+    file = open('log_146.txt', 'r', encoding='gbk', errors='ignore')
+    line = file.readlines()
 
-    # path = 'UDP_MSG_146.csv'
-    # workbook = openpyxl.load_workbook(path)
-    # worksheet = workbook.worksheets[0]
+    row = 0
+    for i in line:
+        da = udp_data(i, row)
 
-    f = open('UDP_MSG_146.csv','w')
-    csv_wr = csv.writer(f)
-    csv_wr.writerow([1,2,3,4,5])
-    f.close()
+        if row == 0:
+            da.cr_title()
 
+        da.log()
+        row = row + 1

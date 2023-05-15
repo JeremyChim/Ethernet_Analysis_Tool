@@ -49,23 +49,23 @@ class udp_data():
             for i in range(2, self.len):
                 self.ws2.cell(1, i).value = self.ws.cell(i, 1).value
 
-    def save(self):
-            self.ws2.cell(2, 1).value = 0
+    def save(self, a):
+            b = a + 2
+            self.ws2.cell(b, 1).value = a
             for i in range(2, self.len):
-                self.ws2.cell(2, i).value = self.msg_lst[i - 2]
+                self.ws2.cell(b, i).value = self.msg_lst[i - 2]
             self.wb2.save('UDP_MSG_146.csv')
             self.wb2.close()
 
-    def log(self):
+    def log(self, a):
         self.config()
         self.cut()
         self.go_int()
         self.calc()
         self.title()
-        self.save()
-        print('finish.')
+        # self.save(a)
 
 if __name__ == '__main__':
     da = '0011031900000077000001465609d51b0000000000976103d0c5009cbe03cd1a00c30503cfcd0002d31e01273c271227422777274526ef09ac5e0f76640f72051d74b300000000000000000000000000001c308c0119180098b103d0b6009ccb03cd1900c32903cfcc1e83e60f42930f83e40f2ec6018002f4f17ff8eae58000247301626902bf16050bc3'
-    da = udp_data(da)
-    da.log()
+    da2 = udp_data(da)
+    da2.log(1)
