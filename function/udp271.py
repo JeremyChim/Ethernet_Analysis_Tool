@@ -1,6 +1,6 @@
 
 # 配置参数
-a = [' ', 'INS_TiStamp', 'INS_TiBas', 'INS_TiLeap', 'INS_TiOut', 'INS_TIleap_Difference']
+a = ' ,INS_TiStamp,INS_TiBas,INS_TiLeap,INS_TiOut,INS_TIleap_Difference'
 b = [0, 16, 18, 20, 22]
 c = [16, 18, 20, 22, 30]
 d = [0.0001, 1, 1, 1, 1]
