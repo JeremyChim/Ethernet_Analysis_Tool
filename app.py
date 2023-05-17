@@ -16,7 +16,7 @@ if not os.path.exists('cache'):
     os.mkdir('cache')
 
 # 过滤数据
-path = 'log2.txt'
+path = 'log.txt'
 fl.log_0011(path), print('1/7 log_0011完成')
 fl.log_146(), print('2/7 log_146完成')
 fl.log_17F(), print('3/7 log_17F完成')
