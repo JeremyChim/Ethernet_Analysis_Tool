@@ -29,12 +29,14 @@ Github：https://github.com/JeremyChim/Ethernet_Analysis_Tool
 - 修改config配置表的偏移量错误（INS_Vehicle_Lat：-90）
 
 ## v0.21
+2023.5.17
 - 少丽说有些数据是错的，暂时不知道是什么原因
 - 可以自动创建cache文件夹
 - 可以自动创建csv文件
 - 打印进度
 
 ### v0.2
+2023.5.16
 - 解决了表头带引号的问题
 - 直接生成csv文件，并放到csv文件夹中
 - 删除没用的临时文件，和测试脚本
