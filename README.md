@@ -3,13 +3,14 @@
 Github：https://github.com/JeremyChim/Ethernet_Analysis_Tool
 
 ## 相关人员
-作者：Jer  
+作者：Jer小铭  
 技术支持：Mavis  
-思路提供：家文  
-验证测试：少丽  
-技术指导：坚莲  
-建议提供：基哥  
-
+建议提供：少基同学  
+思路提供：家文同学  
+测试验证：少丽同学 
+开发指导：媛媛同学
+技术指导：坚莲大佬
+ 
 > 感谢各位大佬和同学的支持。^0^
 
 ## 使用方法
@@ -20,6 +21,7 @@ Github：https://github.com/JeremyChim/Ethernet_Analysis_Tool
 ## 版本更新
 
 ## v0.3
+2023.5.18
 - 进行错误的数据进行分析，发现矩阵偏移量错误（INS_Vehicle_Lat：-90）
 - 解析.C文件输出的csv，经过对比分析，发现py脚本没有错误，只是小数点后几位的差异（c语言Double类型只会保留小数点后6位，而Python则没有这个问题）
 - 结论：python脚本并无错误，是矩阵和.c文件的问题
