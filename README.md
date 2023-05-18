@@ -5,9 +5,12 @@ Github：https://github.com/JeremyChim/Ethernet_Analysis_Tool
 ## 相关人员
 作者：Jer  
 技术支持：Mavis  
-思路提供：家文
+思路提供：家文  
+验证测试：少丽  
+技术指导：坚莲  
+建议提供：基哥  
 
-> 感谢Mavis和家文同学的支持。^0^
+> 感谢各位大佬和同学的支持。^0^
 
 ## 使用方法
 1. 把日志文件命名为 log.txt 放在根目录 
