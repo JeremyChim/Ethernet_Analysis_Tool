@@ -11,7 +11,7 @@ Github：https://github.com/JeremyChim/Ethernet_Analysis_Tool
 开发指导：媛媛同学🤠  
 技术指导：坚莲大佬🧐  
  
-> 感谢各位大佬和同学的支持。^0^
+> 感谢各位同学和大佬的支持。^0^
 
 ## 使用方法
 1. 把日志文件命名为 log.txt 放在根目录 
