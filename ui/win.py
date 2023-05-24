@@ -15,9 +15,9 @@ import os
 
 # 自定义函数调用
 import func.flier as fl
-import func.udp146 as u146
 import func.udp17F as u17F
 import func.udp31B as u31B
+import func.udp146 as u146
 
 # 类
 class app(ttk.Frame):

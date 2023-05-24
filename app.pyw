@@ -7,9 +7,9 @@
 
 import os
 import function.flier as fl
-import function.udp146 as u146
 import function.udp17F as u17F
 import function.udp31B as u31B
+import function.udp146 as u146
 
 # 创建cache文件夹
 if not os.path.exists('cache'):
