@@ -5,12 +5,21 @@
 # @IDE ：PyCharm
 # @Github ：https://github.com/JeremyChim/
 
+# 外部函数调用
 from ttkbootstrap.constants import *
 from tkinter import filedialog
 import ttkbootstrap as ttk
 import tkinter as tk
 import pathlib
+import os
 
+# 自定义函数调用
+import func.flier as fl
+import func.udp146 as u146
+import func.udp17F as u17F
+import func.udp31B as u31B
+
+# 类
 class app(ttk.Frame):
     def __init__(self, win):
         super().__init__(win) # app = ttk.Frame(win)
@@ -53,7 +62,8 @@ class app(ttk.Frame):
         sv = self.sv
         s = ttk.Style()
         tn = s.theme_names()
-        i = tn.index(s.theme.name) # 初始索引值：superhero主题为 12
+        i = tn.index(s.theme.name) # 初始索引值：pulse主题为 7
+        # print(i)
 
         b = ttk.Button(f, text='关于', command=self.fun)
         l = ttk.Label(f, text='主题')
