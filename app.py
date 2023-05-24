@@ -6,10 +6,10 @@
 # @Github ：https://github.com/JeremyChim
 
 import os
-import function.flier as fl
-import function.udp146 as u146
-import function.udp17F as u17F
-import function.udp31B as u31B
+import func.flier as fl
+import func.udp146 as u146
+import func.udp17F as u17F
+import func.udp31B as u31B
 
 # 创建cache文件夹
 if not os.path.exists('cache'):
@@ -32,7 +32,5 @@ u17F.csv(), print('6/7 csv_17F完成')
 u31B.csv(), print('7/7 csv_31B完成')
 
 print('Finish. ^-^')
-
-
 
 
