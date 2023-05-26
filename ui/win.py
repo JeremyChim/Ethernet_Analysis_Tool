@@ -12,6 +12,7 @@ import ttkbootstrap as ttk
 import tkinter as tk
 import pathlib
 import os
+import time
 
 # 自定义函数调用
 import func.flier as fl
@@ -62,7 +63,7 @@ class app(ttk.Frame):
         sv = self.sv
         s = ttk.Style()
         tn = s.theme_names()
-        i = tn.index(s.theme.name) # 初始索引值：pulse主题为 7
+        i = tn.index(s.theme.name) # 初始索引值：morph主题为 9
         # print(i)
 
         b = ttk.Button(f, text='关于', command=self.fun)
@@ -105,8 +106,11 @@ class app(ttk.Frame):
         '''操作栏'''
         lf = self.lf3
 
-        b = ttk.Button(lf, text='生成csv', command=self.fun4)
-        b.pack(side=LEFT, padx=10, fill=X, expand=YES)
+        self.b = ttk.Button(lf, text='生成csv', command=self.fun4)
+        self.pb = ttk.Progressbar(lf, maximum=100, bootstyle='success-striped')
+
+        self.b.pack(padx=10, fill=X, expand=YES)
+        self.pb.pack(padx=10, fill=X, expand=YES)
 
     def fun(self):
         '''关于'''
@@ -140,6 +144,7 @@ class app(ttk.Frame):
         t3 = self.iv.get()
         t4 = self.iv2.get()
         t5 = self.iv3.get()
+        f = self.fun5
 
         print('---当前设定---')
         print(f'主题:{t}')
@@ -148,9 +153,54 @@ class app(ttk.Frame):
         print(f'31B:{t4}')
         print(f'146:{t5}')
 
+        # 创建cache文件夹
+        if not os.path.exists('cache'):
+            os.mkdir('cache')
+
+        # 过滤数据
+        path = t2
+        fl.log_0011(path),f(1,10,'筛选0011数据中...')
+
+        # 创建csv文件夹
+        if not os.path.exists('csv'):
+            os.mkdir('csv')
+
+        # 输出
+        if t3 == 1:
+            fl.log_17F(),f(10,25,'17F数据处理中...')
+            u17F.csv(),f(26,40,'17F数据生成中...')
+        if t4 == 1:
+            fl.log_31B(),f(41,45,'31B数据处理中...')
+            u31B.csv(),f(46,50,'31B数据生成中...')
+        if t5 == 1:
+            fl.log_146(),f(51,70,'146数据处理中...')
+            u146.csv(),f(71,90,'146生成处理中...')
+
+        f(91,99,'csv文件生成中...')
+
+        self.pb['value'] = 100
+        self.b['text'] = 'csv文件已生成^-^'
+
+        # 弹窗提示
+        tk.messagebox.showinfo('(*^▽^*) Yeah~','csv文件已生成在根目录')
+
+        # 初始化进度条
+        self.pb['value'] = 0
+        self.b['text'] = '生成csv'
+    def fun5(self, i, j, l):
+        '''进度更新'''
+        pb = self.pb # 进度条
+        b = self.b # 按钮
+        j = j + 2
+        for k in range(i,j):
+            pb['value'] = k  # 修改进度
+            pb.update()
+            b['text'] = f'进度:{k}% {l}' # 修改按钮文本
+            time.sleep(0.02)
+
 if __name__ == '__main__':
-    w = ttk.Window('以太网报文解析工具','pulse')
-    w.geometry('+640+240')
+    w = ttk.Window('以太网报文解析工具','morph')
+    w.geometry('+640+340')
     app(w)
     l = ttk.Label(text='版本：v0.00')
     l.pack(side=RIGHT, padx=10)
