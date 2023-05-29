@@ -10,8 +10,8 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
 w = ttk.Window('以太网报文解析工具','morph')
-w.geometry('+640+240')
+w.geometry('+640+340')
 ui.app(w)
-l = ttk.Label(text='版本：v1.00')
+l = ttk.Label(text='版本：v1.01')
 l.pack(side=RIGHT, padx=10)
 w.mainloop()

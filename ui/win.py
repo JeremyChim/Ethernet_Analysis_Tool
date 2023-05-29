@@ -7,9 +7,11 @@
 
 # 外部函数调用
 from ttkbootstrap.constants import *
+from windnd import hook_dropfiles
 from tkinter import filedialog
+from tkinter.messagebox import showinfo
+
 import ttkbootstrap as ttk
-import tkinter as tk
 import pathlib
 import os
 import time
@@ -40,6 +42,7 @@ class app(ttk.Frame):
         # 外框
         f = ttk.Frame(padding=10)
         f.pack(fill=X, expand=YES, anchor=N)
+        hook_dropfiles(f, func=self.fun6)  # 拖入读取路径
 
         # 内框
         self.f2 = ttk.Frame(f, padding=10)
@@ -114,7 +117,7 @@ class app(ttk.Frame):
 
     def fun(self):
         '''关于'''
-        tk.messagebox.showinfo('关于 以太网报文解析工具',
+        showinfo('关于 以太网报文解析工具',
                                '作者：Jer小铭😎 \n'
                                '技术支持：Mavis🤣 \n'
                                '建议提供：少基同学🤪 \n'
@@ -182,7 +185,7 @@ class app(ttk.Frame):
         self.b['text'] = 'csv文件已生成^-^'
 
         # 弹窗提示
-        tk.messagebox.showinfo('(*^▽^*) Yeah~','csv文件已生成在根目录')
+        showinfo('(*^▽^*) Yeah~','csv文件已生成在根目录')
 
         # 初始化进度条
         self.pb['value'] = 0
@@ -197,6 +200,11 @@ class app(ttk.Frame):
             pb.update()
             b['text'] = f'进度:{k}% {l}' # 修改按钮文本
             time.sleep(0.02)
+    def fun6(self, a):
+        '''拖入读取'''
+        sv = self.sv2
+        p = '\n'.join((item.decode('gbk') for item in a))
+        sv.set(p)
 
 if __name__ == '__main__':
     w = ttk.Window('以太网报文解析工具','morph')

@@ -26,7 +26,11 @@ Github：https://github.com/JeremyChim/Ethernet_Analysis_Tool
 
 ## 版本更新
 
-### v1.00
+### v1.01
+2023.5.29   
+- 新增一个小功能，文件可以拖入读取路径
+
+### v1.0
 2023.5.29   
 - 正式封装成exe
 
