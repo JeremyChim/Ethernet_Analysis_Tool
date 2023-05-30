@@ -6,12 +6,13 @@
 # @Github ：https://github.com/JeremyChim/
 
 import ui.win as ui
-import ttkbootstrap as ttk
-from ttkbootstrap.constants import *
+from ttkbootstrap import Window
+from ttkbootstrap import Label
+from ttkbootstrap.constants import RIGHT
 
-w = ttk.Window('以太网报文解析工具','morph')
+w = Window('以太网报文解析工具','morph')
 w.geometry('+640+340')
 ui.app(w)
-l = ttk.Label(text='版本：v1.01')
+l = Label(text='版本：v1.23')
 l.pack(side=RIGHT, padx=10)
 w.mainloop()
