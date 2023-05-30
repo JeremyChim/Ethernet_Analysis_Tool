@@ -60,18 +60,18 @@ def log_31B():
     file.close()
     file1.close()
 
-def log_271():
-    '''将0x271的数据，保存成txt'''
-    file = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
-    file1 = open('cache/log_271.txt', 'w')
-
-    for text in file.readlines():
-        key = text[16:24]
-        if key == '00000271':
-            file1.write(text)
-
-    file.close()
-    file1.close()
+# def log_271():
+#     '''将0x271的数据，保存成txt'''
+#     file = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
+#     file1 = open('cache/log_271.txt', 'w')
+#
+#     for text in file.readlines():
+#         key = text[16:24]
+#         if key == '00000271':
+#             file1.write(text)
+#
+#     file.close()
+#     file1.close()
 
 if __name__ == '__main__':
     path = 'log.txt'
