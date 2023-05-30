@@ -5,16 +5,17 @@
 # @IDE ：PyCharm
 # @Github ：https://github.com/JeremyChim/
 
-# 外部函数调用
+# 外部函数调用（指定函数）
 from ttkbootstrap.constants import *
 from windnd import hook_dropfiles
 from tkinter import filedialog
 from tkinter.messagebox import showinfo
+from pathlib import Path
+from time import sleep
+from os import path as pa
+from os import mkdir
 
 import ttkbootstrap as ttk
-import pathlib
-import os
-import time
 
 # 自定义函数调用
 import func.flier as fl
@@ -29,7 +30,7 @@ class app(ttk.Frame):
         self.pack() # app.pack()
 
         # 获取路径
-        self.path = pathlib.Path().absolute().as_posix()
+        self.path = Path().absolute().as_posix()
         path = self.path
 
         # 容器
@@ -42,7 +43,9 @@ class app(ttk.Frame):
         # 外框
         f = ttk.Frame(padding=10)
         f.pack(fill=X, expand=YES, anchor=N)
-        hook_dropfiles(f, func=self.fun6)  # 拖入读取路径
+
+        # 拖入读取
+        hook_dropfiles(f, func=self.fun6)
 
         # 内框
         self.f2 = ttk.Frame(f, padding=10)
@@ -55,6 +58,7 @@ class app(ttk.Frame):
         self.lf2.pack(fill=X, expand=YES, pady=(0, 10))
         self.lf3.pack(fill=X, expand=YES)
 
+        # 行
         self.row()
         self.row2()
         self.row3()
@@ -142,31 +146,23 @@ class app(ttk.Frame):
             sv.set(path)
     def fun4(self):
         '''生成csv'''
-        t = self.sv.get()
-        t2 = self.sv2.get()
-        t3 = self.iv.get()
-        t4 = self.iv2.get()
-        t5 = self.iv3.get()
+        t, t2, t3, t4, t5 = self.sv.get(), self.sv2.get(), self.iv.get(), self.iv2.get(), self.iv3.get()
         f = self.fun5
+        pb = self.pb # 进度条
+        b = self.b # 按钮
 
-        print('---当前设定---')
-        print(f'主题:{t}')
-        print(f'路径:{t2}')
-        print(f'17F:{t3}')
-        print(f'31B:{t4}')
-        print(f'146:{t5}')
+        print(f'当前设定:\n主题:{t}\n路径:{t2}\n17F:{t3}\n31B:{t4}\n146:{t5}\n')
 
         # 创建cache文件夹
-        if not os.path.exists('cache'):
-            os.mkdir('cache')
+        if not pa.exists('cache'):
+            mkdir('cache')
 
         # 过滤数据
-        path = t2
-        fl.log_0011(path),f(1,10,'筛选0011数据中...')
+        fl.log_0011(t2),f(1,10,'筛选0011数据中...')
 
         # 创建csv文件夹
-        if not os.path.exists('csv'):
-            os.mkdir('csv')
+        if not pa.exists('csv'):
+            mkdir('csv')
 
         # 输出
         if t3 == 1:
@@ -181,15 +177,15 @@ class app(ttk.Frame):
 
         f(91,99,'csv文件生成中...')
 
-        self.pb['value'] = 100
-        self.b['text'] = 'csv文件已生成^-^'
+        pb['value'] = 100
+        b['text'] = 'csv文件已生成^-^'
 
         # 弹窗提示
         showinfo('(*^▽^*) Yeah~','csv文件已生成在根目录')
 
         # 初始化进度条
-        self.pb['value'] = 0
-        self.b['text'] = '生成csv'
+        pb['value'] = 0
+        b['text'] = '生成csv'
     def fun5(self, i, j, l):
         '''进度更新'''
         pb = self.pb # 进度条
@@ -199,7 +195,7 @@ class app(ttk.Frame):
             pb['value'] = k  # 修改进度
             pb.update()
             b['text'] = f'进度:{k}% {l}' # 修改按钮文本
-            time.sleep(0.02)
+            sleep(0.02)
     def fun6(self, a):
         '''拖入读取'''
         sv = self.sv2
@@ -207,9 +203,9 @@ class app(ttk.Frame):
         sv.set(p)
 
 if __name__ == '__main__':
-    w = ttk.Window('以太网报文解析工具','morph')
+    w = ttk.Window('----------调试窗口----------','litera')
     w.geometry('+640+340')
     app(w)
-    l = ttk.Label(text='版本：v0.00')
+    l = ttk.Label(text='----------版本：Demo----------')
     l.pack(side=RIGHT, padx=10)
     w.mainloop()
