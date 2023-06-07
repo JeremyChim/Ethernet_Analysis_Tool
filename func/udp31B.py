@@ -38,3 +38,7 @@ def csv():
         k = k + '\n' # 加换行符
         f2.write(k) # 写入csv
     f2.close()
+
+if __name__ == '__main__':
+
+    csv()

@@ -39,4 +39,6 @@ def csv():
         f2.write(k) # 写入csv
     f2.close()
 
+if __name__ == '__main__':
 
+    csv()
