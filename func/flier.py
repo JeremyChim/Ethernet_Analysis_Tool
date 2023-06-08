@@ -10,68 +10,77 @@ def log_0011(path):
     :param path:原始数据log的路径
     '''
 
-    file = open(path, 'r', encoding='gbk', errors='ignore')
-    file1 = open('cache/log_0011.txt','w')
+    f = open(path, 'r', encoding='gbk', errors='ignore')
+    f1 = open('cache/log_0011.txt','w')
+    r = f.readlines()
 
-    for text in file.readlines():
-        key = text[:4]
-        if key == '0011':
-            file1.write(text)
+    for i in r:
+        j = i[:4]
+        if j == '0011':
+            f1.write(i)
 
-    file.close()
-    file1.close()
+    f.close()
+    f1.close()
 
 def log_146():
     '''将0x146的数据，保存成txt'''
-    file = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
-    file1 = open('cache/log_146.txt', 'w')
+    f = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
+    f1 = open('cache/log_146.txt', 'w')
+    f2 = open('cache/error_log.txt', 'a')
+    r = f.readlines()
 
-    for text in file.readlines():
-        key = text[16:24]
-        if key == '00000146':
-            file1.write(text)
+    for i in r:
+        j = i[16:24]
+        l = len(i)
+        if j == '00000146':
+            if l == 279:
+                f1.write(i)
+            else:
+                f2.write(i)
 
-    file.close()
-    file1.close()
+    f.close()
+    f1.close()
+    f2.close()
 
 def log_17F():
     '''将0x17F的数据，保存成txt'''
-    file = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
-    file1 = open('cache/log_17F.txt', 'w')
+    f = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
+    f1 = open('cache/log_17F.txt', 'w')
+    f2 = open('cache/error_log.txt','a')
+    r = f.readlines()
 
-    for text in file.readlines():
-        key = text[16:24]
-        if key == '0000017f':
-            file1.write(text)
+    for i in r:
+        j = i[16:24]
+        l = len(i)
+        if j == '0000017f':
+            if l == 179:
+                f1.write(i)
+            else:
+                f2.write(i)
 
-    file.close()
-    file1.close()
+    f.close()
+    f1.close()
+    f2.close()
 
 def log_31B():
     '''将0x31B的数据，保存成txt'''
-    file = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
-    file1 = open('cache/log_31B.txt', 'w')
+    f = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
+    f1 = open('cache/log_31B.txt', 'w')
+    f2 = open('cache/error_log.txt', 'a')
+    r = f.readlines()
 
-    for text in file.readlines():
-        key = text[16:24]
-        if key == '0000031b':
-            file1.write(text)
+    for i in r:
+        j = i[16:24]
+        l = len(i)
+        if j == '0000031b':
+            if l == 153:
+                f1.write(i)
+            else:
+                f2.write(i)
 
-    file.close()
-    file1.close()
-
-# def log_271():
-#     '''将0x271的数据，保存成txt'''
-#     file = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
-#     file1 = open('cache/log_271.txt', 'w')
-#
-#     for text in file.readlines():
-#         key = text[16:24]
-#         if key == '00000271':
-#             file1.write(text)
-#
-#     file.close()
-#     file1.close()
+    f.close()
+    f1.close()
+    f2.close()
 
 if __name__ == '__main__':
     path = 'log.txt'
@@ -79,4 +88,3 @@ if __name__ == '__main__':
     log_146()
     log_17F()
     log_31B()
-    # log_271()
