@@ -13,6 +13,6 @@ from ttkbootstrap.constants import RIGHT
 w = Window('以太网报文解析工具','morph')
 w.geometry('+640+340')
 ui.app(w)
-l = Label(text='版本：v1.23')
+l = Label(text='版本：v1.30')
 l.pack(side=RIGHT, padx=10)
 w.mainloop()
