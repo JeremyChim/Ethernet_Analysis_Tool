@@ -82,9 +82,42 @@ def log_31B():
     f1.close()
     f2.close()
 
+def log_rel():
+    '''将0x17F和0x146的数据，保存成txt，用来处理成rel表'''
+
+    f1 = open('cache/log_17F.txt','r')
+    f2 = open('cache/log_146.txt', 'r')
+    f3 = open('cache/log_rel.txt', 'w')
+
+    r1 = f1.readlines()
+    r2 = f2.readlines()
+    ls1 = []
+    ls2 = []
+
+    for i in r1:
+        da = i[40:]
+        da2 = da[106:114] # 17F:INS_GPS_Time
+        ls1.append(da2)
+
+    for i in r2:
+        da = i[40:]
+        da2 = da[194:] # 146:最后7个元素
+        ls2.append(da2)
+
+    j = 0
+    for i in ls1:
+        k = i + ls2[j]
+        f3.write(k)
+        j += 1
+
+    f1.close()
+    f2.close()
+    f3.close()
+
 if __name__ == '__main__':
-    path = 'log.txt'
-    log_0011(path)
+    # path = 'log.txt'
+    # log_0011(path)
     log_146()
     log_17F()
-    log_31B()
+    # log_31B()
+    log_rel()
