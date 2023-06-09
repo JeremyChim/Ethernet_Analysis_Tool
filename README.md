@@ -27,9 +27,25 @@ Github：https://github.com/JeremyChim/Ethernet_Analysis_Tool
 
 ## 版本更新
 
+### V2.00
+2023.6.10
+#### 新增
+- app.py主题从morph改成了journal，新版本，新皮肤😄
+- config.xlsx新建一个工作簿rel，用来生成rel.py的配置参数
+- config.xlsx添加了丽敏所需的rel表所需的8个信号的信号名、起始位、位宽等信息
+- config.xlsx的工作簿rel，重写了起始位：B3=B2+C2，B4=B3+C3 ...以此类推
+- config.py生成rel.py的配置参数
+- flier.py中新建一个函数log_rel()，用来生成rel.txt
+- 新建rel.py用来生成rel.csv
+- rel.py的配置参数，最后第二和最后第三的所有元素都经过互换，用于实现INS_Vehicle_SlowDr_Pitch 和 INS_Vehicle_SlowDr_Roll的列互换
+- win.py添加了rel的勾选按钮
+#### 已知缺陷
+- 功能已初步实现，但还需要测试验证一下
+- 目前rel表的生成中，存在一个问题暂时无法规避：若17F和146帧数不一致，则导致函数报错，暂未想到补帧策略
+
 ### v1.41
 2023.6.9
-- 进排查只是数据量太打，造成卡进度条的假象，实际是在处理数据
+- 进排查只是数据量太大，造成卡进度条的假象，实际是在处理数据
 - 丽敏同学建议：结合17F和146做一个输出rel.csv的功能
 - 小铭我想做一个按钮的状态：当工具在运算数据时，按钮置灰状态，运算完成后恢复可点击状态
 
