@@ -22,6 +22,7 @@ import func.flier as fl
 import func.udp17F as u17F
 import func.udp31B as u31B
 import func.udp146 as u146
+import func.rel as rel
 
 # 类
 class app(ttk.Frame):
@@ -39,6 +40,7 @@ class app(ttk.Frame):
         self.iv = ttk.IntVar(value=1) # 17F
         self.iv2 = ttk.IntVar(value=1) # 31B
         self.iv3 = ttk.IntVar(value=1) # 146
+        self.iv4 = ttk.IntVar(value=0)  # rel
 
         # 外框
         f = ttk.Frame(padding=10)
@@ -101,14 +103,17 @@ class app(ttk.Frame):
         iv = self.iv
         iv2 = self.iv2
         iv3 = self.iv3
+        iv4 = self.iv4
 
         cb = ttk.Checkbutton(lf,text='17F', variable=iv, onvalue=1, offvalue=0)
         cb2 = ttk.Checkbutton(lf,text='31B', variable=iv2, onvalue=1, offvalue=0)
         cb3 = ttk.Checkbutton(lf,text='146', variable=iv3, onvalue=1, offvalue=0)
+        cb4 = ttk.Checkbutton(lf, text='REL', variable=iv4, onvalue=1, offvalue=0)
 
         cb.pack(side=LEFT, padx=10)
         cb2.pack(side=LEFT, padx=10)
         cb3.pack(side=LEFT, padx=10)
+        cb4.pack(side=LEFT, padx=10)
     def row4(self):
         '''操作栏'''
         lf = self.lf3
@@ -147,12 +152,12 @@ class app(ttk.Frame):
             sv.set(path)
     def fun4(self):
         '''生成csv'''
-        t, t2, t3, t4, t5 = self.sv.get(), self.sv2.get(), self.iv.get(), self.iv2.get(), self.iv3.get()
+        t, t2, t3, t4, t5, t6 = self.sv.get(), self.sv2.get(), self.iv.get(), self.iv2.get(), self.iv3.get(), self.iv4.get()
         f = self.fun5
         pb = self.pb # 进度条
         b = self.b # 按钮
 
-        print(f'当前设定:\n主题:{t}\n路径:{t2}\n17F:{t3}\n31B:{t4}\n146:{t5}\n')
+        print(f'当前设定:\n主题:{t}\n路径:{t2}\n17F:{t3}\n31B:{t4}\n146:{t5}\nrel:{t6}\n')
 
         # 创建cache文件夹
         if not pa.exists('cache'):
@@ -176,6 +181,16 @@ class app(ttk.Frame):
             fl.log_146(),f(51,70,'146数据处理中...')
             u146.csv(),f(71,90,'146生成处理中...')
 
+        if t6 == 1:
+            if not pa.exists('cache/log_17F.txt'):
+                fl.log_17F(), f(10, 25, '17F数据处理中...')
+                u17F.csv(), f(26, 40, '17F数据生成中...')
+            if not pa.exists('cache/log_146.txt'):
+                fl.log_146(), f(51, 70, '146数据处理中...')
+                u146.csv(), f(71, 90, '146生成处理中...')
+            fl.log_rel()
+            rel.csv()
+
         f(91,99,'csv文件生成中...')
 
         pb['value'] = 100
@@ -183,6 +198,7 @@ class app(ttk.Frame):
 
         # 弹窗提示
         showinfo('(*^▽^*) Yeah~','csv文件已生成在根目录')
+        b.config(state=NORMAL)
 
         # 初始化进度条
         pb['value'] = 0
