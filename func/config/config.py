@@ -1,7 +1,7 @@
 import openpyxl
 
 wb = openpyxl.load_workbook('config.xlsx')
-ws = wb.worksheets[1]
+ws = wb.worksheets[3] # 工作簿减1
 
 ls1 = ' '
 ls2 = []
@@ -9,7 +9,7 @@ ls3 = []
 ls4 = []
 ls5 = []
 
-for i in range(31):
+for i in range(8): # 最后一行减1
     i = i + 2
 
     t1 = ws.cell(i, 1).value
