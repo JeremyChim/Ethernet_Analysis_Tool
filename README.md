@@ -27,6 +27,11 @@ Github：https://github.com/JeremyChim/Ethernet_Analysis_Tool
 
 ## 版本更新
 
+### v1.40
+2023.6.9
+- 莲花同学发现还是有卡进度条的问题，这次是146的信号，ε＝ε＝ε＝(#>д<)ﾉ
+- 初步判断还是数据的问题，看来容错机制只有字符长度的判断还不够
+
 ### v1.30  
 2023.6.8
 - flier.py添加了容错机制，并将不满足条件的行输出在error_log.txt
