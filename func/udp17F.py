@@ -26,7 +26,6 @@ def csv():
             da3 = da2 * d[j] + e[j] # 物理值 = 原始值 * 精度 + 偏移量
             ls2.append(da3) # 写入一个数据
         ls.append(ls2) # 写入一整行数据
-        print(x,ls2)
     f.close()
 
     # 创建csv
