@@ -1,4 +1,6 @@
 
+from math import ceil
+
 def csv():
 
     # 配置参数
@@ -11,6 +13,9 @@ def csv():
     # 打开log
     f = open('cache/log_17F.txt','r')
     r = f.readlines()
+    max = 1000000  # 到多少行分? 1000000
+    long = len(r) # log有多少行？
+    fen = ceil(long/max) # 分成几份？
 
     # 创建表头
     ls = [a]
@@ -29,15 +34,31 @@ def csv():
     f.close()
 
     # 创建csv
-    f2 = open('csv/UDP_MSG_17F.csv','w')
+    if fen == 1:
+        f2 = open('csv/UDP_MSG_17F.csv', 'w')
+        for k in ls:
+            k = str(k) # 转文本
+            k = k[1:-1] # 去括号
+            k.replace(' ','') # 去空格
+            k += '\n' # 加换行符
+            f2.write(k) # 写入csv
+        f2.close()
 
-    for k in ls:
-        k = str(k) # 转文本
-        k = k[1:-1] # 去括号
-        k.replace(' ','') # 去空格
-        k = k + '\n' # 加换行符
-        f2.write(k) # 写入csv
-    f2.close()
+    # 分csv
+    else:
+        for i in range(fen):
+            n = j = i + 1
+            i *= max
+            j *= max
+
+            f2 = open(f'csv/UDP_MSG_17F_{n}.csv', 'w')
+            for k in ls[i:j]:
+                k = str(k)  # 转文本
+                k = k[1:-1]  # 去括号
+                k.replace(' ', '')  # 去空格
+                k += '\n'  # 加换行符
+                f2.write(k) # 写入csv
+            f2.close()
 
 if __name__ == '__main__':
 
