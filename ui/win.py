@@ -10,7 +10,6 @@ from ttkbootstrap.constants import *
 from windnd import hook_dropfiles
 from tkinter import filedialog
 from tkinter.messagebox import showinfo
-from pathlib import Path
 from time import sleep
 from os import path as pa
 from os import mkdir
@@ -30,13 +29,9 @@ class app(ttk.Frame):
         super().__init__(win) # app = ttk.Frame(win)
         self.pack() # app.pack()
 
-        # 获取路径
-        self.path = Path().absolute().as_posix()
-        path = self.path
-
         # 容器
         self.sv = ttk.StringVar() # 主题名
-        self.sv2 = ttk.StringVar(value=path) # log路径
+        self.sv2 = ttk.StringVar() # log路径
         self.iv = ttk.IntVar(value=1) # 17F
         self.iv2 = ttk.IntVar(value=1) # 31B
         self.iv3 = ttk.IntVar(value=1) # 146

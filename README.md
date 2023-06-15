@@ -27,6 +27,18 @@ Github：https://github.com/JeremyChim/Ethernet_Analysis_Tool
 
 ## 版本更新
 
+### V2.20
+2023.6.15
+#### 新增
+- udp17F.py中新增了分list机制：当该信号的log行数超过100万行时，会分list，用来解决内存不足的问题
+- upd31B.py和udp146.py也加入了分list机制
+- rel.py加入分list和分表的机制
+- Pink Drink 粉粉生咖还挺好喝🍓
+#### 修改
+- 修改路径，现在默认为空，看起来简洁
+#### 建议
+- 研发想要解析流水号，用来分析问题出在哪，预计在V2.30实现吧
+
 ### V2.10
 2023.6.11
 #### 新增
