@@ -21,6 +21,7 @@ import func.flier as fl
 import func.udp17F as u17F
 import func.udp31B as u31B
 import func.udp146 as u146
+import func.udp5B3 as u5B3
 import func.rel as rel
 
 # 类
@@ -33,9 +34,10 @@ class app(ttk.Frame):
         self.sv = ttk.StringVar() # 主题名
         self.sv2 = ttk.StringVar() # log路径
         self.iv = ttk.IntVar(value=1) # 17F
-        self.iv2 = ttk.IntVar(value=1) # 31B
+        self.iv2 = ttk.IntVar(value=0) # 31B
         self.iv3 = ttk.IntVar(value=1) # 146
         self.iv4 = ttk.IntVar(value=0)  # rel
+        self.iv5 = ttk.IntVar(value=0)  # 5B3
 
         # 外框
         f = ttk.Frame(padding=10)
@@ -99,15 +101,18 @@ class app(ttk.Frame):
         iv2 = self.iv2
         iv3 = self.iv3
         iv4 = self.iv4
+        iv5 = self.iv5
 
         cb = ttk.Checkbutton(lf,text='17F', variable=iv, onvalue=1, offvalue=0)
         cb2 = ttk.Checkbutton(lf,text='31B', variable=iv2, onvalue=1, offvalue=0)
         cb3 = ttk.Checkbutton(lf,text='146', variable=iv3, onvalue=1, offvalue=0)
         cb4 = ttk.Checkbutton(lf, text='REL', variable=iv4, onvalue=1, offvalue=0)
+        cb5 = ttk.Checkbutton(lf, text='5B3', variable=iv5, onvalue=1, offvalue=0)
 
         cb.pack(side=LEFT, padx=10)
-        cb2.pack(side=LEFT, padx=10)
         cb3.pack(side=LEFT, padx=10)
+        cb2.pack(side=LEFT, padx=10)
+        cb5.pack(side=LEFT, padx=10)
         cb4.pack(side=LEFT, padx=10)
     def row4(self):
         '''操作栏'''
@@ -147,12 +152,13 @@ class app(ttk.Frame):
             sv.set(path)
     def fun4(self):
         '''生成csv'''
-        t, t2, t3, t4, t5, t6 = self.sv.get(), self.sv2.get(), self.iv.get(), self.iv2.get(), self.iv3.get(), self.iv4.get()
+        t, t2, t3, t4, t5, t6, t7 = self.sv.get(), self.sv2.get(), self.iv.get(), self.iv2.get(), self.iv3.get(), self.iv4.get(), self.iv5.get()
+
         f = self.fun5
         pb = self.pb # 进度条
         b = self.b # 按钮
 
-        print(f'当前设定:\n主题:{t}\n路径:{t2}\n17F:{t3}\n31B:{t4}\n146:{t5}\nrel:{t6}\n')
+        print(f'当前设定:\n主题:{t}\n路径:{t2}\n17F:{t3}\n146:{t5}\n31B:{t4}\n5B3:{t7}\nrel:{t6}\n')
 
         # 创建cache文件夹
         if not pa.exists('cache'):
@@ -167,22 +173,24 @@ class app(ttk.Frame):
 
         # 输出
         if t3 == 1:
-            fl.log_17F(),f(10,25,'17F数据处理中...')
-            u17F.csv(),f(26,40,'17F数据生成中...')
-        if t4 == 1:
-            fl.log_31B(),f(41,45,'31B数据处理中...')
-            u31B.csv(),f(46,50,'31B数据生成中...')
+            fl.log_17F(),f(11,20,'17F数据处理中...')
+            u17F.csv(),f(21,30,'17F数据生成中...')
         if t5 == 1:
-            fl.log_146(),f(51,70,'146数据处理中...')
-            u146.csv(),f(71,90,'146生成处理中...')
-
+            fl.log_146(),f(31,40,'146数据处理中...')
+            u146.csv(),f(41,50,'146生成处理中...')
+        if t4 == 1:
+            fl.log_31B(),f(51,60,'31B数据处理中...')
+            u31B.csv(),f(61,70,'31B数据生成中...')
+        if t7 == 1:
+            fl.log_5B3(),f(71,80,'5B3数据处理中...')
+            u5B3.csv(),f(81,90,'5B3生成处理中...')
         if t6 == 1:
             if not pa.exists('cache/log_17F.txt'):
-                fl.log_17F(), f(10, 25, '17F数据处理中...')
-                u17F.csv(), f(26, 40, '17F数据生成中...')
+                fl.log_17F(), f(11, 20, '17F数据处理中...')
+                u17F.csv(), f(21, 30, '17F数据生成中...')
             if not pa.exists('cache/log_146.txt'):
-                fl.log_146(), f(51, 70, '146数据处理中...')
-                u146.csv(), f(71, 90, '146生成处理中...')
+                fl.log_146(), f(31, 40, '146数据处理中...')
+                u146.csv(), f(41, 50, '146生成处理中...')
             fl.log_rel()
             rel.csv()
 

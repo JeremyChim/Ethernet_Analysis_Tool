@@ -82,6 +82,26 @@ def log_31B():
     f1.close()
     f2.close()
 
+def log_5B3():
+    '''将0x17F的数据，保存成txt'''
+    f = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
+    f1 = open('cache/log_5B3.txt', 'w')
+    f2 = open('cache/error_log.txt','a')
+    r = f.readlines()
+
+    for i in r:
+        j = i[16:24]
+        l = len(i)
+        if j == '000005b3':
+            if l == 59:
+                f1.write(i)
+            else:
+                f2.write(i)
+
+    f.close()
+    f1.close()
+    f2.close()
+
 def log_rel():
     '''将0x17F和0x146的数据，保存成txt，用来处理成rel表'''
 
@@ -117,7 +137,8 @@ def log_rel():
 if __name__ == '__main__':
     # path = 'log.txt'
     # log_0011(path)
-    log_146()
-    log_17F()
+    # log_146()
+    # log_17F()
     # log_31B()
-    log_rel()
+    log_5B3()
+    # log_rel()
