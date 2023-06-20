@@ -9,7 +9,7 @@ from math import ceil
 
 def csv():
     # 配置参数
-    a = ' ,INS_CorrelationSystem_failure_status,INS_IMU_Temp,INS_Sts,INS_Wheel_Scale_factor,INS_Longitude_Hemisphere,INS_Latitude_Hemisphere'
+    a = ' ,INS_CorrelationSystem_failure_status,INS_IMU_Temp,INS_Sts,INS_Wheel_Scale_factor,INS_Longitude_Hemisphere,INS_Latitude_Hemisphere,Packet_Count '
     b = [0, 2, 6, 8, 14, 16]
     c = [2, 6, 8, 14, 16, 18]
     d = [1, 0.01, 1, 1e-06, 1, 1]
@@ -37,6 +37,7 @@ def csv():
 
         for i in r[i:j]:
             da = i[40:]  # 去帧头
+            da4 = int(i[4:8], 16)  # 流水号
             ls2 = [x]  # 写序号
             x += 1
 
@@ -45,7 +46,7 @@ def csv():
                 da2 = int(da1, 16)  # 16进制转10进制
                 da3 = da2 * d[j] + e[j]  # 物理值 = 原始值 * 精度 + 偏移量
                 ls2.append(da3)  # 写入一个数据
-
+            ls2.append(da4)  # 写入流水号
             ls.append(ls2)  # 写入一整行数据
 
         for k in ls:

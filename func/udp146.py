@@ -9,7 +9,7 @@ from math import ceil
 
 def csv():
     # 配置参数
-    a = ' ,INS_Vehicle_X_Acc,INS_Vehicle_X_Rate,INS_Vehicle_Y_Acc,INS_Vehicle_Y_Rate,INS_Vehicle_Z_Acc,INS_Vehicle_Z_Rate,INS_IMU_Time,INS_IMU_Valid,INS_IMU_X_Acc_Bias,INS_IMU_X_Rate_Bias,INS_IMU_Y_Acc_Bias,INS_IMU_Y_Rate_Bias,INS_IMU_Z_Acc_Bias,INS_IMU_Z_Rate_Bias,INS_Vehicle_Quaternion_W,INS_Vehicle_Quaternion_X,INS_Vehicle_Quaternion_Y,INS_Vehicle_Quaternion_Z,IMU_to_Vehicle_Offset_X,IMU_to_Vehicle_Offset_Y,IMU_to_Vehicle_Offset_Z,INS_Timestamp,INS_Timestamp_Valid,INS_146_TiDiffer,INS_IMU_X_Acc,INS_IMU_X_Rate,INS_IMU_Y_Acc,INS_IMU_Y_Rate,INS_IMU_Z_Acc,INS_IMU_Z_Rate,IMU_to_Vehicle_Error_Quaternion_W,IMU_to_Vehicle_Error_Quaternion_X,IMU_to_Vehicle_Error_Quaternion_Y,IMU_to_Vehicle_Error_Quaternion_Z,SlowDr_Status,INS_Vehicle_SlowDr_Pos_X,INS_Vehicle_SlowDr_Pos_Y,INS_Vehicle_SlowDr_Pos_Z,INS_Vehicle_SlowDr_Roll,INS_Vehicle_SlowDr_Pitch,INS_Vehicle_SlowDr_Heading'
+    a = ' ,INS_Vehicle_X_Acc,INS_Vehicle_X_Rate,INS_Vehicle_Y_Acc,INS_Vehicle_Y_Rate,INS_Vehicle_Z_Acc,INS_Vehicle_Z_Rate,INS_IMU_Time,INS_IMU_Valid,INS_IMU_X_Acc_Bias,INS_IMU_X_Rate_Bias,INS_IMU_Y_Acc_Bias,INS_IMU_Y_Rate_Bias,INS_IMU_Z_Acc_Bias,INS_IMU_Z_Rate_Bias,INS_Vehicle_Quaternion_W,INS_Vehicle_Quaternion_X,INS_Vehicle_Quaternion_Y,INS_Vehicle_Quaternion_Z,IMU_to_Vehicle_Offset_X,IMU_to_Vehicle_Offset_Y,IMU_to_Vehicle_Offset_Z,INS_Timestamp,INS_Timestamp_Valid,INS_146_TiDiffer,INS_IMU_X_Acc,INS_IMU_X_Rate,INS_IMU_Y_Acc,INS_IMU_Y_Rate,INS_IMU_Z_Acc,INS_IMU_Z_Rate,IMU_to_Vehicle_Error_Quaternion_W,IMU_to_Vehicle_Error_Quaternion_X,IMU_to_Vehicle_Error_Quaternion_Y,IMU_to_Vehicle_Error_Quaternion_Z,SlowDr_Status,INS_Vehicle_SlowDr_Pos_X,INS_Vehicle_SlowDr_Pos_Y,INS_Vehicle_SlowDr_Pos_Z,INS_Vehicle_SlowDr_Roll,INS_Vehicle_SlowDr_Pitch,INS_Vehicle_SlowDr_Heading,Packet_Count '
     b = [0, 6, 12, 18, 24, 30, 36, 44, 46, 50, 54, 58, 62, 66, 70, 76, 82, 88, 94, 100, 106, 112, 128, 130, 134, 140, 146, 152, 158, 164, 170, 176, 182, 188, 194, 196, 204, 212, 220, 226, 232]
     c = [6, 12, 18, 24, 30, 36, 44, 46, 50, 54, 58, 62, 66, 70, 76, 82, 88, 94, 100, 106, 112, 128, 130, 134, 140, 146, 152, 158, 164, 170, 176, 182, 188, 194, 196, 204, 212, 220, 226, 232, 238]
     d = [0.001, 1.7452e-05, 0.001, 1.7452e-05, 0.001, 1.7452e-05, 1, 1, 0.001, 1.7452e-05, 0.001, 1.7452e-05, 0.001, 1.7452e-05, 1e-06, 1e-06, 1e-06, 1e-06, 0.0001, 0.0001, 0.0001, 0.0001, 1, 1, 0.001, 1.7452e-05, 0.001, 1.7452e-05, 0.001, 1.7452e-05, 1e-06, 1e-06, 1e-06, 1e-06, 1, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
@@ -37,6 +37,7 @@ def csv():
 
         for i in r[i:j]:
             da = i[40:]  # 去帧头
+            da4 = int(i[4:8], 16)  # 流水号
             ls2 = [x]  # 写序号
             x += 1
 
@@ -45,7 +46,7 @@ def csv():
                 da2 = int(da1, 16)  # 16进制转10进制
                 da3 = da2 * d[j] + e[j]  # 物理值 = 原始值 * 精度 + 偏移量
                 ls2.append(da3)  # 写入一个数据
-
+            ls2.append(da4)  # 写入流水号
             ls.append(ls2)  # 写入一整行数据
 
         for k in ls:
