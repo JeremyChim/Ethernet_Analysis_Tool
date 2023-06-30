@@ -53,7 +53,7 @@ def log_17F():
         j = i[16:24]
         l = len(i)
         if j == '0000017f':
-            if l == 179:
+            if l == 187:
                 f1.write(i)
             else:
                 f2.write(i)
@@ -138,7 +138,7 @@ if __name__ == '__main__':
     # path = 'log.txt'
     # log_0011(path)
     # log_146()
-    # log_17F()
+    log_17F()
     # log_31B()
-    log_5B3()
+    # log_5B3()
     # log_rel()

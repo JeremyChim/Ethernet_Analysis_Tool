@@ -27,6 +27,17 @@ Github：https://github.com/JeremyChim/Ethernet_Analysis_Tool
 
 ## 版本更新
 
+### V2.50
+2023.6.30
+#### 新增
+- config.xlsx 0x17F 新增四个轮速信号配置：WhlSpdFrntLePls、WhlSpdFrntRiPls、WhlSpdReLePls、WhlSpdReRiPls
+- flier.py 0x17F信号过滤字节长度从 179 改为 187（含换行符）
+- udp17F.py新增四个轮速信号的解析：WhlSpdFrntLePls、WhlSpdFrntRiPls、WhlSpdReLePls、WhlSpdReRiPls
+#### 注意
+- 抓数据的脚本得是新的，否则光解析工具是新的没用
+- 抓的原始数据也需要遵循最新的协议：《SDA INS 以太网通讯协议格式参考_V1.9_0626》
+- 坚连大佬说：抓数据的脚本得用 orig_c.c 和 cc.out ，ins也要用最新的版本
+
 ### V2.40
 2023.6.20
 #### 新增
@@ -112,7 +123,7 @@ pb['bootstyle'] = 'info-striped'
 ### v1.26
 2023.6.7
 - 找当真正原因：log_17F.txt文件中长度不够的行造成的，正在构思容错机制
-- 丽敏同学提出容错机制：添加判断17F信号每行的字符，如果不满足则跳过，我觉得可以
+- 丽敏同学提出容错机制：添加判断17F信号每行的长度，如果不满足则跳过，我觉得可以
 
 ### v1.25
 2023.6.6
