@@ -19,6 +19,7 @@ import ttkbootstrap as ttk
 # 自定义函数调用
 import func.flier as fl
 import func.udp17F as u17F
+import func.udp17F_old as u17F_old
 import func.udp31B as u31B
 import func.udp146 as u146
 import func.udp5B3 as u5B3
@@ -34,6 +35,7 @@ class app(ttk.Frame):
         self.sv = ttk.StringVar() # 主题名
         self.sv2 = ttk.StringVar() # log路径
         self.iv = ttk.IntVar(value=1) # 17F
+        self.iv6 = ttk.IntVar(value=0)  # 17F旧
         self.iv2 = ttk.IntVar(value=0) # 31B
         self.iv3 = ttk.IntVar(value=1) # 146
         self.iv4 = ttk.IntVar(value=0)  # rel
@@ -102,14 +104,17 @@ class app(ttk.Frame):
         iv3 = self.iv3
         iv4 = self.iv4
         iv5 = self.iv5
+        iv6 = self.iv6
 
         cb = ttk.Checkbutton(lf,text='17F', variable=iv, onvalue=1, offvalue=0)
+        cb6 = ttk.Checkbutton(lf, text='17F旧', variable=iv6, onvalue=1, offvalue=0)
         cb2 = ttk.Checkbutton(lf,text='31B', variable=iv2, onvalue=1, offvalue=0)
         cb3 = ttk.Checkbutton(lf,text='146', variable=iv3, onvalue=1, offvalue=0)
         cb4 = ttk.Checkbutton(lf, text='REL', variable=iv4, onvalue=1, offvalue=0)
         cb5 = ttk.Checkbutton(lf, text='5B3', variable=iv5, onvalue=1, offvalue=0)
 
         cb.pack(side=LEFT, padx=10)
+        cb6.pack(side=LEFT, padx=10)
         cb3.pack(side=LEFT, padx=10)
         cb2.pack(side=LEFT, padx=10)
         cb5.pack(side=LEFT, padx=10)
@@ -152,13 +157,29 @@ class app(ttk.Frame):
             sv.set(path)
     def fun4(self):
         '''生成csv'''
-        t, t2, t3, t4, t5, t6, t7 = self.sv.get(), self.sv2.get(), self.iv.get(), self.iv2.get(), self.iv3.get(), self.iv4.get(), self.iv5.get()
+        # t, t2, t3, t4, t5, t6, t7 = self.sv.get(), self.sv2.get(), self.iv.get(), self.iv2.get(), self.iv3.get(), self.iv4.get(), self.iv5.get()
+        t = self.sv.get()
+        t2 = self.sv2.get()
+        t3 = self.iv.get()
+        t4 = self.iv2.get()
+        t5 = self.iv3.get()
+        t6 = self.iv4.get()
+        t7 = self.iv5.get()
+        t8 = self.iv6.get()
 
         f = self.fun5
         pb = self.pb # 进度条
         b = self.b # 按钮
 
-        print(f'当前设定:\n主题:{t}\n路径:{t2}\n17F:{t3}\n146:{t5}\n31B:{t4}\n5B3:{t7}\nrel:{t6}\n')
+        print(f'当前设定:\n'
+              f'主题:{t}\n'
+              f'路径:{t2}\n'
+              f'17F:{t3}\n'
+              f'17F旧:{t8}\n'
+              f'146:{t5}\n'
+              f'31B:{t4}\n'
+              f'5B3:{t7}\n'
+              f'rel:{t6}\n')
 
         # 创建cache文件夹
         if not pa.exists('cache'):
@@ -175,6 +196,9 @@ class app(ttk.Frame):
         if t3 == 1:
             fl.log_17F(),f(11,20,'17F数据处理中...')
             u17F.csv(),f(21,30,'17F数据生成中...')
+        if t8 == 1:
+            fl.log_17F_old(),f(11,20,'17F数据处理中...')
+            u17F_old.csv(),f(21,30,'17F数据生成中...')
         if t5 == 1:
             fl.log_146(),f(31,40,'146数据处理中...')
             u146.csv(),f(41,50,'146生成处理中...')

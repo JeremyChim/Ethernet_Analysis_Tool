@@ -15,6 +15,7 @@ def log_0011(path):
     r = f.readlines()
 
     for i in r:
+        i = i.strip(' ')
         j = i[:4]
         if j == '0011':
             f1.write(i)
@@ -54,6 +55,26 @@ def log_17F():
         l = len(i)
         if j == '0000017f':
             if l == 187:
+                f1.write(i)
+            else:
+                f2.write(i)
+
+    f.close()
+    f1.close()
+    f2.close()
+
+def log_17F_old():
+    '''将0x17F的数据，保存成txt'''
+    f = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
+    f1 = open('cache/log_17F.txt', 'w')
+    f2 = open('cache/error_log.txt','a')
+    r = f.readlines()
+
+    for i in r:
+        j = i[16:24]
+        l = len(i)
+        if j == '0000017f':
+            if l == 179:
                 f1.write(i)
             else:
                 f2.write(i)
@@ -135,10 +156,11 @@ def log_rel():
     f3.close()
 
 if __name__ == '__main__':
-    # path = 'log.txt'
-    # log_0011(path)
+    path = 'log.txt'
+    log_0011(path)
     # log_146()
-    log_17F()
+    # log_17F()
+    # log_17F_old()
     # log_31B()
     # log_5B3()
     # log_rel()

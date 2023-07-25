@@ -27,6 +27,26 @@ Github：https://github.com/JeremyChim/Ethernet_Analysis_Tool
 
 ## 版本更新
 
+### V2.60
+2023.7.25
+#### 新增
+- 新增udp17F_old.py：用于解析旧协议的17F信号
+- win.py中新增按钮：17F旧（目前采集的数据中，有时候会有旧协议）
+- 使用UPX技术优化封装包大小（优化前：23.7 MB 优化后：16.5 MB 优化空间：7.2 MB ）
+#### 修改
+- config.xlsx 新增遵循旧协议的17F信号配置：0x17F_old
+- flier.py 筛选0011数据时，自动去除空格（莲花同学采集的有些数据，0011开头包含了一个空格，导致数据无法正常识别）
+- flier.py 新增遵循旧协议的17F信号配置：log_17F_old()
+#### 注意
+- 旧协议是指《SDA INS 以太网通讯协议格式参考_V1.8_0320.xlsx》
+       
+       To:
+           Hope you never lack the courage to start all over again.
+
+                                                        Jeremy.Chim
+                                                         2023.07.26
+                                                           00:04:05
+
 ### V2.50
 2023.6.30
 #### 新增
