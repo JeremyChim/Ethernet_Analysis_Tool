@@ -43,7 +43,27 @@ def log_146():
     f1.close()
     f2.close()
 
-def log_17F():
+def log_17F_v20():
+    '''将0x17F的数据，保存成txt'''
+    f = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
+    f1 = open('cache/log_17F.txt', 'w')
+    f2 = open('cache/error_log.txt','a')
+    r = f.readlines()
+
+    for i in r:
+        j = i[16:24]
+        l = len(i)
+        if j == '0000017f':
+            if l == 191:
+                f1.write(i)
+            else:
+                f2.write(i)
+
+    f.close()
+    f1.close()
+    f2.close()
+
+def log_17F_v19():
     '''将0x17F的数据，保存成txt'''
     f = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
     f1 = open('cache/log_17F.txt', 'w')
@@ -63,7 +83,7 @@ def log_17F():
     f1.close()
     f2.close()
 
-def log_17F_old():
+def log_17F_v18():
     '''将0x17F的数据，保存成txt'''
     f = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
     f1 = open('cache/log_17F.txt', 'w')
@@ -159,8 +179,8 @@ if __name__ == '__main__':
     path = 'log.txt'
     log_0011(path)
     # log_146()
-    # log_17F()
-    # log_17F_old()
+    # log_17F_v18()
+    # log_17F_v19()
     # log_31B()
     # log_5B3()
     # log_rel()

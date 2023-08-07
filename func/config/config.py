@@ -1,7 +1,11 @@
 import openpyxl
 
+sheet = 2 # sheet号
+row = 38 # 最后一行号
+
 wb = openpyxl.load_workbook('config.xlsx')
-ws = wb.worksheets[2] # 工作簿减1
+sheet -= 1
+ws = wb.worksheets[sheet]
 
 ls1 = ' '
 ls2 = []
@@ -9,7 +13,8 @@ ls3 = []
 ls4 = []
 ls5 = []
 
-for i in range(31): # 最后一行号减1
+row -= 1
+for i in range(row):
     i = i + 2
 
     t1 = ws.cell(i, 1).value

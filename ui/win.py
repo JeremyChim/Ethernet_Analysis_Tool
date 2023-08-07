@@ -13,13 +13,15 @@ from tkinter.messagebox import showinfo
 from time import sleep
 from os import path as pa
 from os import mkdir
+from threading import Thread
 
 import ttkbootstrap as ttk
 
 # 自定义函数调用
 import func.flier as fl
-import func.udp17F as u17F
-import func.udp17F_old as u17F_old
+import func.udp17F_v20 as u17F_v20
+import func.udp17F_v19 as u17F_v19
+import func.udp17F_v18 as u17F_v18
 import func.udp31B as u31B
 import func.udp146 as u146
 import func.udp5B3 as u5B3
@@ -34,8 +36,8 @@ class app(ttk.Frame):
         # 容器
         self.sv = ttk.StringVar() # 主题名
         self.sv2 = ttk.StringVar() # log路径
+        self.iv6 = ttk.IntVar(value=18)  # 协议
         self.iv = ttk.IntVar(value=1) # 17F
-        self.iv6 = ttk.IntVar(value=0)  # 17F旧
         self.iv2 = ttk.IntVar(value=0) # 31B
         self.iv3 = ttk.IntVar(value=1) # 146
         self.iv4 = ttk.IntVar(value=0)  # rel
@@ -51,17 +53,20 @@ class app(ttk.Frame):
         # 内框
         self.f2 = ttk.Frame(f, padding=10)
         self.lf = ttk.LabelFrame(f, text='日志', padding=10)
+        self.lf4 = ttk.LabelFrame(f, text='协议', padding=10)
         self.lf2 = ttk.LabelFrame(f, text='信号', padding=10)
         self.lf3 = ttk.LabelFrame(f, text='操作', padding=10)
 
         self.f2.pack(fill=X, expand=YES)
         self.lf.pack(fill=X, expand=YES, pady=(0, 10))
+        self.lf4.pack(fill=X, expand=YES, pady=(0, 10))
         self.lf2.pack(fill=X, expand=YES, pady=(0, 10))
         self.lf3.pack(fill=X, expand=YES)
 
         # 行
         self.row()
         self.row2()
+        self.row5()
         self.row3()
         self.row4()
 
@@ -84,6 +89,7 @@ class app(ttk.Frame):
         b2.pack(side=RIGHT, padx=(10,0))
         self.tm.pack(side=RIGHT, padx=(10,0))
         l.pack(side=RIGHT, padx=(10,0))
+
     def row2(self):
         '''日志栏'''
         lf = self.lf
@@ -96,6 +102,20 @@ class app(ttk.Frame):
         l.pack(side=LEFT, padx=10)
         e.pack(side=LEFT, padx=10, fill=X, expand=YES)
         b.pack(side=LEFT, padx=10)
+
+    def row5(self):
+        '''协议栏'''
+        lf = self.lf4
+        iv = self.iv6
+
+        rb = ttk.Radiobutton(lf, text='v1.8', variable=iv, value=18)
+        rb2 = ttk.Radiobutton(lf, text='v1.9', variable=iv, value=19)
+        rb3 = ttk.Radiobutton(lf, text='v2.0', variable=iv, value=20)
+
+        rb.pack(side=LEFT, padx=10)
+        rb2.pack(side=LEFT, padx=10)
+        rb3.pack(side=LEFT, padx=10)
+
     def row3(self):
         '''信号栏'''
         lf = self.lf2
@@ -107,23 +127,24 @@ class app(ttk.Frame):
         iv6 = self.iv6
 
         cb = ttk.Checkbutton(lf,text='17F', variable=iv, onvalue=1, offvalue=0)
-        cb6 = ttk.Checkbutton(lf, text='17F旧', variable=iv6, onvalue=1, offvalue=0)
+        # cb6 = ttk.Checkbutton(lf, text='17F旧', variable=iv6, onvalue=1, offvalue=0)
         cb2 = ttk.Checkbutton(lf,text='31B', variable=iv2, onvalue=1, offvalue=0)
         cb3 = ttk.Checkbutton(lf,text='146', variable=iv3, onvalue=1, offvalue=0)
         cb4 = ttk.Checkbutton(lf, text='REL', variable=iv4, onvalue=1, offvalue=0)
         cb5 = ttk.Checkbutton(lf, text='5B3', variable=iv5, onvalue=1, offvalue=0)
 
         cb.pack(side=LEFT, padx=10)
-        cb6.pack(side=LEFT, padx=10)
+        # cb6.pack(side=LEFT, padx=10)
         cb3.pack(side=LEFT, padx=10)
         cb2.pack(side=LEFT, padx=10)
         cb5.pack(side=LEFT, padx=10)
         cb4.pack(side=LEFT, padx=10)
+
     def row4(self):
         '''操作栏'''
         lf = self.lf3
 
-        self.b = ttk.Button(lf, text='生成csv', command=self.fun4)
+        self.b = ttk.Button(lf, text='生成csv', command=self.fun7)
         self.pb = ttk.Progressbar(lf, maximum=100, bootstyle='success-striped')
 
         self.b.pack(padx=10, fill=X, expand=YES)
@@ -142,6 +163,7 @@ class app(ttk.Frame):
                                '技术指导：坚莲大佬🧐 \n\n' 
                                '感谢各位同学和大佬的支持。^0^'
                                )
+
     def fun2(self):
         '''应用主题'''
         s = ttk.Style()
@@ -149,12 +171,14 @@ class app(ttk.Frame):
 
         s.theme_use(cb)
         print(f'应用主题:{cb}')
+
     def fun3(self):
         '''浏览文件'''
         sv = self.sv2
         path = filedialog.askopenfilename(title='选择日志文件')
         if path:
             sv.set(path)
+
     def fun4(self):
         '''生成csv'''
         # t, t2, t3, t4, t5, t6, t7 = self.sv.get(), self.sv2.get(), self.iv.get(), self.iv2.get(), self.iv3.get(), self.iv4.get(), self.iv5.get()
@@ -174,8 +198,8 @@ class app(ttk.Frame):
         print(f'当前设定:\n'
               f'主题:{t}\n'
               f'路径:{t2}\n'
+              f'协议:{t8}\n'
               f'17F:{t3}\n'
-              f'17F旧:{t8}\n'
               f'146:{t5}\n'
               f'31B:{t4}\n'
               f'5B3:{t7}\n'
@@ -193,28 +217,46 @@ class app(ttk.Frame):
             mkdir('csv')
 
         # 输出
+
         if t3 == 1:
-            fl.log_17F(),f(11,20,'17F数据处理中...')
-            u17F.csv(),f(21,30,'17F数据生成中...')
-        if t8 == 1:
-            fl.log_17F_old(),f(11,20,'17F数据处理中...')
-            u17F_old.csv(),f(21,30,'17F数据生成中...')
+            if t8 == 18:
+                fl.log_17F_v18(),f(11,20,'17F数据处理中...')
+                u17F_v18.csv(),f(21,30,'17F数据生成中...')
+            elif t8 == 19:
+                fl.log_17F_v19(), f(11, 20, '17F数据处理中...')
+                u17F_v19.csv(), f(21, 30, '17F数据生成中...')
+            elif t8 == 20:
+                fl.log_17F_v20(), f(11, 20, '17F数据处理中...')
+                u17F_v20.csv(), f(21, 30, '17F数据生成中...')
+
         if t5 == 1:
             fl.log_146(),f(31,40,'146数据处理中...')
             u146.csv(),f(41,50,'146生成处理中...')
+
         if t4 == 1:
             fl.log_31B(),f(51,60,'31B数据处理中...')
             u31B.csv(),f(61,70,'31B数据生成中...')
+
         if t7 == 1:
             fl.log_5B3(),f(71,80,'5B3数据处理中...')
             u5B3.csv(),f(81,90,'5B3生成处理中...')
+
         if t6 == 1:
             if not pa.exists('cache/log_17F.txt'):
-                fl.log_17F(), f(11, 20, '17F数据处理中...')
-                u17F.csv(), f(21, 30, '17F数据生成中...')
+                if t8 == 18:
+                    fl.log_17F_v18(), f(11, 20, '17F数据处理中...')
+                    u17F_v18.csv(), f(21, 30, '17F数据生成中...')
+                elif t8 == 19:
+                    fl.log_17F_v19(), f(11, 20, '17F数据处理中...')
+                    u17F_v19.csv(), f(21, 30, '17F数据生成中...')
+                elif t8 == 20:
+                    fl.log_17F_v20(), f(11, 20, '17F数据处理中...')
+                    u17F_v20.csv(), f(21, 30, '17F数据生成中...')
+
             if not pa.exists('cache/log_146.txt'):
                 fl.log_146(), f(31, 40, '146数据处理中...')
                 u146.csv(), f(41, 50, '146生成处理中...')
+
             fl.log_rel()
             rel.csv()
 
@@ -230,6 +272,14 @@ class app(ttk.Frame):
         # 初始化进度条
         pb['value'] = 0
         b['text'] = '生成csv'
+
+    def fun7(self):
+        '''建立线程，防假死'''
+        fun = self.fun4
+        t1 = Thread(target=fun)
+        print('线程启动')
+        t1.start()
+
     def fun5(self, i, j, l):
         '''进度更新'''
         pb = self.pb # 进度条
@@ -240,6 +290,7 @@ class app(ttk.Frame):
             pb.update()
             b['text'] = f'进度:{k}% {l}' # 修改按钮文本
             sleep(0.02)
+
     def fun6(self, a):
         '''拖入读取'''
         sv = self.sv2
