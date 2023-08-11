@@ -27,6 +27,18 @@ Github：https://github.com/JeremyChim/Ethernet_Analysis_Tool
 
 ## 版本更新
 
+
+### V2.80
+2023.8.9
+#### 新增
+- 新增信号：271、232、5B8
+#### 修改
+- 修改17F的信号名：第二个INS_Vehicle_Height_Confidence改成INS_GNSS_Mode
+#### 优化
+- 使用match case函数替代if elif，使代码简洁一些
+- 优化进度条视觉效果，加快进度读条效果
+- 规范了代码变量名，方便后面的小伙伴维护🤣🐱‍🐉👀
+
 ### V2.70
 2023.8.7
 #### 新增

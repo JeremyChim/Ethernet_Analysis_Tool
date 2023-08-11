@@ -7,13 +7,33 @@
 
 def fun(path):
     f = open(path, 'r', encoding='gbk', errors='ignore')
-    f1 = open('id.csv', 'w')
+    # f1 = open('id.csv', 'w')
     r = f.readlines()
+    ls = []
 
     for i in r:
         t = i[21:24]
-        print(t)
-        f1.write(f'{t}\n')
+        ls.append(t)
+        # print(t)
+        # f1.write(f'{t}\n')
+    return ls
+
+def find_duplicates(lst):
+    return [x for x in lst if lst.count(x) > 1]
+
+def find_duplicates(lst):
+    d = {}
+    for i in lst:
+        if i in d:
+            d[i] += 1
+        else:
+            d[i] = 1
+    return [k for k, v in d.items() if v > 0]
 
 if __name__ == '__main__':
-    fun('log_0011.txt')
+    ls = fun('log_0011.txt')
+    # print(ls)
+    # ls = ['17f','271','146','17f']
+
+    dup = find_duplicates(ls)
+    print(dup)
