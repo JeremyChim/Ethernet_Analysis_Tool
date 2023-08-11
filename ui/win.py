@@ -34,21 +34,22 @@ class app(ttk.Frame):
         self.pack() # app.pack()
 
         # 容器
-        self.sv = ttk.StringVar() # 主题名
-        self.sv2 = ttk.StringVar() # log路径
-        self.iv6 = ttk.IntVar(value=18)  # 协议
-        self.iv = ttk.IntVar(value=1) # 17F
-        self.iv2 = ttk.IntVar(value=0) # 31B
-        self.iv3 = ttk.IntVar(value=1) # 146
-        self.iv4 = ttk.IntVar(value=0)  # rel
-        self.iv5 = ttk.IntVar(value=0)  # 5B3
+        self.sv_theme = ttk.StringVar()     # 主题名
+        self.sv_log_path = ttk.StringVar()  # log路径
+        self.iv_ver = ttk.IntVar(value=20)  # 协议
+        self.iv_17f = ttk.IntVar(value=1)   # 17F
+        self.iv_146 = ttk.IntVar(value=1)   # 146
+        self.iv_31b = ttk.IntVar(value=0)   # 31B
+        self.iv_rel = ttk.IntVar(value=0)   # rel
+        self.iv_5b3 = ttk.IntVar(value=0)   # 5B3
+        self.iv_pg = ttk.IntVar(value=0)    # 进度条
 
         # 外框
         f = ttk.Frame(padding=10)
         f.pack(fill=X, expand=YES, anchor=N)
 
         # 拖入读取
-        hook_dropfiles(f, func=self.fun6)
+        hook_dropfiles(f, func=self.fun_load)
 
         # 内框
         self.f2 = ttk.Frame(f, padding=10)
@@ -64,49 +65,49 @@ class app(ttk.Frame):
         self.lf3.pack(fill=X, expand=YES)
 
         # 行
-        self.row()
-        self.row2()
-        self.row5()
-        self.row3()
-        self.row4()
+        self.row_theme()
+        self.row_load()
+        self.row_ver()
+        self.row_sgn()
+        self.row_exec()
 
-    def row(self):
+    def row_theme(self):
         '''主题栏'''
         f = self.f2
-        sv = self.sv
+        sv = self.sv_theme
         s = ttk.Style()
         tn = s.theme_names()
         i = tn.index(s.theme.name) # 初始索引值：morph主题为 9
         # print(i)
 
-        b = ttk.Button(f, text='关于', command=self.fun)
+        b = ttk.Button(f, text='关于', command=self.fun_about)
         l = ttk.Label(f, text='主题')
         self.tm = ttk.Combobox(f, width=15, values=tn, textvariable=sv)
         self.tm.current(i) # 初始主题
-        b2 = ttk.Button(f, text='应用', command=self.fun2)
+        b2 = ttk.Button(f, text='应用', command=self.fun_theme)
 
         b.pack(side=LEFT, padx=(0,10))
         b2.pack(side=RIGHT, padx=(10,0))
         self.tm.pack(side=RIGHT, padx=(10,0))
         l.pack(side=RIGHT, padx=(10,0))
 
-    def row2(self):
-        '''日志栏'''
+    def row_load(self):
+        '''加载栏'''
         lf = self.lf
-        sv = self.sv2
+        sv = self.sv_log_path
 
         l = ttk.Label(lf, text='路径')
         e = ttk.Entry(lf, width=40, textvariable=sv)
-        b = ttk.Button(lf, text='浏览', width=10, command=self.fun3)
+        b = ttk.Button(lf, text='浏览', width=10, command=self.fun_open)
 
         l.pack(side=LEFT, padx=10)
         e.pack(side=LEFT, padx=10, fill=X, expand=YES)
         b.pack(side=LEFT, padx=10)
 
-    def row5(self):
+    def row_ver(self):
         '''协议栏'''
         lf = self.lf4
-        iv = self.iv6
+        iv = self.iv_ver
 
         rb = ttk.Radiobutton(lf, text='v1.8', variable=iv, value=18)
         rb2 = ttk.Radiobutton(lf, text='v1.9', variable=iv, value=19)
@@ -116,41 +117,39 @@ class app(ttk.Frame):
         rb2.pack(side=LEFT, padx=10)
         rb3.pack(side=LEFT, padx=10)
 
-    def row3(self):
+    def row_sgn(self):
         '''信号栏'''
         lf = self.lf2
-        iv = self.iv
-        iv2 = self.iv2
-        iv3 = self.iv3
-        iv4 = self.iv4
-        iv5 = self.iv5
-        iv6 = self.iv6
+        iv = self.iv_17f
+        iv2 = self.iv_31b
+        iv3 = self.iv_146
+        iv4 = self.iv_rel
+        iv5 = self.iv_5b3
 
         cb = ttk.Checkbutton(lf,text='17F', variable=iv, onvalue=1, offvalue=0)
-        # cb6 = ttk.Checkbutton(lf, text='17F旧', variable=iv6, onvalue=1, offvalue=0)
         cb2 = ttk.Checkbutton(lf,text='31B', variable=iv2, onvalue=1, offvalue=0)
         cb3 = ttk.Checkbutton(lf,text='146', variable=iv3, onvalue=1, offvalue=0)
         cb4 = ttk.Checkbutton(lf, text='REL', variable=iv4, onvalue=1, offvalue=0)
         cb5 = ttk.Checkbutton(lf, text='5B3', variable=iv5, onvalue=1, offvalue=0)
 
         cb.pack(side=LEFT, padx=10)
-        # cb6.pack(side=LEFT, padx=10)
         cb3.pack(side=LEFT, padx=10)
         cb2.pack(side=LEFT, padx=10)
         cb5.pack(side=LEFT, padx=10)
         cb4.pack(side=LEFT, padx=10)
 
-    def row4(self):
-        '''操作栏'''
+    def row_exec(self):
+        '''执行栏'''
         lf = self.lf3
+        iv = self.iv_pg
 
-        self.b = ttk.Button(lf, text='生成csv', command=self.fun7)
-        self.pb = ttk.Progressbar(lf, maximum=100, bootstyle='success-striped')
+        self.b = ttk.Button(lf, text='生成csv', command=self.fun_thread)
+        self.pb = ttk.Progressbar(lf, maximum=100, variable=iv, bootstyle='success-striped')
 
         self.b.pack(padx=10, fill=X, expand=YES)
         self.pb.pack(padx=10, fill=X, expand=YES)
 
-    def fun(self):
+    def fun_about(self):
         '''关于'''
         showinfo('关于 以太网报文解析工具',
                                '作者：Jer小铭😎 \n'
@@ -164,7 +163,7 @@ class app(ttk.Frame):
                                '感谢各位同学和大佬的支持。^0^'
                                )
 
-    def fun2(self):
+    def fun_theme(self):
         '''应用主题'''
         s = ttk.Style()
         cb = self.tm.get()
@@ -172,45 +171,47 @@ class app(ttk.Frame):
         s.theme_use(cb)
         print(f'应用主题:{cb}')
 
-    def fun3(self):
+    def fun_open(self):
         '''浏览文件'''
-        sv = self.sv2
+        sv = self.sv_log_path
         path = filedialog.askopenfilename(title='选择日志文件')
         if path:
             sv.set(path)
 
-    def fun4(self):
+    def fun_exec(self):
         '''生成csv'''
-        # t, t2, t3, t4, t5, t6, t7 = self.sv.get(), self.sv2.get(), self.iv.get(), self.iv2.get(), self.iv3.get(), self.iv4.get(), self.iv5.get()
-        t = self.sv.get()
-        t2 = self.sv2.get()
-        t3 = self.iv.get()
-        t4 = self.iv2.get()
-        t5 = self.iv3.get()
-        t6 = self.iv4.get()
-        t7 = self.iv5.get()
-        t8 = self.iv6.get()
+        theme = self.sv_theme.get()
+        log_path = self.sv_log_path.get()
+        ver = self.iv_ver.get()
+        io_17f = self.iv_17f.get()
+        io_146 = self.iv_146.get()
+        io_31b = self.iv_31b.get()
+        io_5b3 = self.iv_5b3.get()
+        io_rel = self.iv_rel.get()
 
-        f = self.fun5
-        pb = self.pb # 进度条
-        b = self.b # 按钮
+        sum = io_17f + io_146 + io_31b + io_5b3 + io_rel
+        mul = sum*2
+        pg_val = int(60/mul)
+
+        update = self.fun_pg_update # 进度条更新函数
+        b = self.b  # 按钮
 
         print(f'当前设定:\n'
-              f'主题:{t}\n'
-              f'路径:{t2}\n'
-              f'协议:{t8}\n'
-              f'17F:{t3}\n'
-              f'146:{t5}\n'
-              f'31B:{t4}\n'
-              f'5B3:{t7}\n'
-              f'rel:{t6}\n')
+              f'主题:{theme}\n'
+              f'路径:{log_path}\n'
+              f'协议:{ver}\n'
+              f'17F:{io_17f}\n'
+              f'146:{io_146}\n'
+              f'31B:{io_31b}\n'
+              f'5B3:{io_5b3}\n'
+              f'rel:{io_rel}\n')
 
         # 创建cache文件夹
         if not pa.exists('cache'):
             mkdir('cache')
 
         # 过滤数据
-        fl.log_0011(t2),f(1,10,'筛选0011数据中...')
+        fl.log_0011(log_path), update(30, '筛选0011数据中...')
 
         # 创建csv文件夹
         if not pa.exists('csv'):
@@ -218,89 +219,106 @@ class app(ttk.Frame):
 
         # 输出
 
-        if t3 == 1:
-            if t8 == 18:
-                fl.log_17F_v18(),f(11,20,'17F数据处理中...')
-                u17F_v18.csv(),f(21,30,'17F数据生成中...')
-            elif t8 == 19:
-                fl.log_17F_v19(), f(11, 20, '17F数据处理中...')
-                u17F_v19.csv(), f(21, 30, '17F数据生成中...')
-            elif t8 == 20:
-                fl.log_17F_v20(), f(11, 20, '17F数据处理中...')
-                u17F_v20.csv(), f(21, 30, '17F数据生成中...')
+        if io_17f == 1:
+            match ver:
+                case 18:
+                    fl.log_17F_v18(), update(pg_val, '17F数据处理中...')
+                    u17F_v18.csv(), update(pg_val, '17F数据生成中...')
+                case 19:
+                    fl.log_17F_v19(), update(pg_val, '17F数据处理中...')
+                    u17F_v19.csv(), update(pg_val, '17F数据生成中...')
+                case 20:
+                    fl.log_17F_v20(), update(pg_val, '17F数据处理中...')
+                    u17F_v20.csv(), update(pg_val, '17F数据生成中...')
 
-        if t5 == 1:
-            fl.log_146(),f(31,40,'146数据处理中...')
-            u146.csv(),f(41,50,'146生成处理中...')
+        if io_146 == 1:
+            fl.log_146(), update(pg_val, '146数据处理中...')
+            u146.csv(), update(pg_val, '146生成处理中...')
 
-        if t4 == 1:
-            fl.log_31B(),f(51,60,'31B数据处理中...')
-            u31B.csv(),f(61,70,'31B数据生成中...')
+        if io_31b == 1:
+            fl.log_31B(), update(pg_val, '31B数据处理中...')
+            u31B.csv(), update(pg_val, '31B数据生成中...')
 
-        if t7 == 1:
-            fl.log_5B3(),f(71,80,'5B3数据处理中...')
-            u5B3.csv(),f(81,90,'5B3生成处理中...')
+        if io_5b3 == 1:
+            fl.log_5B3(), update(pg_val, '5B3数据处理中...')
+            u5B3.csv(), update(pg_val, '5B3生成处理中...')
 
-        if t6 == 1:
+        if io_rel == 1:
             if not pa.exists('cache/log_17F.txt'):
-                if t8 == 18:
-                    fl.log_17F_v18(), f(11, 20, '17F数据处理中...')
-                    u17F_v18.csv(), f(21, 30, '17F数据生成中...')
-                elif t8 == 19:
-                    fl.log_17F_v19(), f(11, 20, '17F数据处理中...')
-                    u17F_v19.csv(), f(21, 30, '17F数据生成中...')
-                elif t8 == 20:
-                    fl.log_17F_v20(), f(11, 20, '17F数据处理中...')
-                    u17F_v20.csv(), f(21, 30, '17F数据生成中...')
+                match ver:
+                    case 18:
+                        fl.log_17F_v18(), update(pg_val, '17F数据处理中...')
+                        u17F_v18.csv(), update(pg_val, '17F数据生成中...')
+                    case 19:
+                        fl.log_17F_v19(), update(pg_val, '17F数据处理中...')
+                        u17F_v19.csv(), update(pg_val, '17F数据生成中...')
+                    case 20:
+                        fl.log_17F_v20(), update(pg_val, '17F数据处理中...')
+                        u17F_v20.csv(), update(pg_val, '17F数据生成中...')
 
             if not pa.exists('cache/log_146.txt'):
-                fl.log_146(), f(31, 40, '146数据处理中...')
-                u146.csv(), f(41, 50, '146生成处理中...')
+                fl.log_146(), update(pg_val, '146数据处理中...')
+                u146.csv(), update(pg_val, '146生成处理中...')
 
-            fl.log_rel()
-            rel.csv()
+            fl.log_rel(), update(pg_val, 'rel数据处理中...')
+            rel.csv(), update(pg_val, 'rel数据处理中...')
 
-        f(91,99,'csv文件生成中...')
+        update(10, 'csv文件生成中...')
 
-        pb['value'] = 100
-        b['text'] = 'csv文件已生成^-^'
+        self.iv_pg.set(100) # 进度条跑满
+        b['text'] = 'csv文件已生成^0^'
 
         # 弹窗提示
         showinfo('(*^▽^*) Yeah~','csv文件已生成在根目录')
         b.config(state=NORMAL)
 
         # 初始化进度条
-        pb['value'] = 0
+        self.iv_pg.set(0)   # 进度条归零
         b['text'] = '生成csv'
 
-    def fun7(self):
+    def fun_thread(self):
         '''建立线程，防假死'''
-        fun = self.fun4
+        fun = self.fun_exec
         t1 = Thread(target=fun)
         print('线程启动')
         t1.start()
 
-    def fun5(self, i, j, l):
-        '''进度更新'''
-        pb = self.pb # 进度条
-        b = self.b # 按钮
-        j = j + 2
-        for k in range(i,j):
-            pb['value'] = k  # 修改进度
-            pb.update()
-            b['text'] = f'进度:{k}% {l}' # 修改按钮文本
-            sleep(0.02)
+    def fun_pg_update(self, pg_val, text):
+        '''新的进度条'''
+        val = self.iv_pg.get()
 
-    def fun6(self, a):
+        for i in range(pg_val):
+            val += 1
+            if val > 100:
+                break
+
+            self.iv_pg.set(val)
+            self.pb.update()
+            self.b['text'] = f'进度:{val}% {text}'  # 修改按钮文本
+            sleep(0.01)
+        sleep(1)
+
+    # def fun_pg_update(self, i, j, l):
+    #     '''进度条更新'''
+    #     pb = self.pb # 进度条
+    #     b = self.b # 按钮
+    #     j = j + 2
+    #     for k in range(i, j):
+    #         pb['value'] = k  # 修改进度
+    #         pb.update()
+    #         b['text'] = f'进度:{k}% {l}' # 修改按钮文本
+    #         sleep(0.01)
+
+    def fun_load(self, path):
         '''拖入读取'''
-        sv = self.sv2
-        p = '\n'.join((item.decode('gbk') for item in a))
+        sv = self.sv_log_path
+        p = '\n'.join((item.decode('gbk') for item in path))
         sv.set(p)
 
 if __name__ == '__main__':
-    w = ttk.Window('----------调试窗口----------','litera')
-    w.geometry('+640+340')
-    app(w)
+    win = ttk.Window('----------调试窗口----------','litera')
+    win.geometry('+640+340')
+    app(win)
     l = ttk.Label(text='----------版本：Demo----------')
     l.pack(side=RIGHT, padx=10)
-    w.mainloop()
+    win.mainloop()
