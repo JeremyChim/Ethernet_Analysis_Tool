@@ -5,6 +5,7 @@
 # @IDE ：PyCharm
 # @Github ：https://github.com/JeremyChim
 
+
 def log_0011(path):
     '''将0011开头的数据，保存成txt
     :param path:原始数据log的路径
@@ -22,6 +23,7 @@ def log_0011(path):
 
     f.close()
     f1.close()
+
 
 def log_146():
     '''将0x146的数据，保存成txt'''
@@ -43,6 +45,7 @@ def log_146():
     f1.close()
     f2.close()
 
+
 def log_17F_v20():
     '''将0x17F的数据，保存成txt'''
     f = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
@@ -62,6 +65,7 @@ def log_17F_v20():
     f.close()
     f1.close()
     f2.close()
+
 
 def log_17F_v19():
     '''将0x17F的数据，保存成txt'''
@@ -83,6 +87,7 @@ def log_17F_v19():
     f1.close()
     f2.close()
 
+
 def log_17F_v18():
     '''将0x17F的数据，保存成txt'''
     f = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
@@ -102,6 +107,7 @@ def log_17F_v18():
     f.close()
     f1.close()
     f2.close()
+
 
 def log_31B():
     '''将0x31B的数据，保存成txt'''
@@ -123,8 +129,9 @@ def log_31B():
     f1.close()
     f2.close()
 
+
 def log_5B3():
-    '''将0x17F的数据，保存成txt'''
+    '''将0x5B3的数据，保存成txt'''
     f = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
     f1 = open('cache/log_5B3.txt', 'w')
     f2 = open('cache/error_log.txt','a')
@@ -143,6 +150,49 @@ def log_5B3():
     f1.close()
     f2.close()
 
+
+def log_271():
+    '''将0x271的数据，保存成txt'''
+    f = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
+    f1 = open('cache/log_271.txt', 'w')
+    f2 = open('cache/error_log.txt','a')
+    r = f.readlines()
+
+    for i in r:
+        j = i[16:24]
+        l = len(i)
+        if j == '00000271':
+            if l == 71:
+                f1.write(i)
+            else:
+                f2.write(i)
+
+    f.close()
+    f1.close()
+    f2.close()
+
+
+def log_5B8():
+    '''将0x5B8的数据，保存成txt'''
+    f = open('cache/log_0011.txt', 'r', encoding='gbk', errors='ignore')
+    f1 = open('cache/log_5B8.txt', 'w')
+    f2 = open('cache/error_log.txt','a')
+    r = f.readlines()
+
+    for i in r:
+        j = i[16:24]
+        l = len(i)
+        if j == '000005b8':
+            if l == 73:
+                f1.write(i)
+            else:
+                f2.write(i)
+
+    f.close()
+    f1.close()
+    f2.close()
+
+
 def log_rel():
     '''将0x17F和0x146的数据，保存成txt，用来处理成rel表'''
 
@@ -157,12 +207,12 @@ def log_rel():
 
     for i in r1:
         da = i[40:]
-        da2 = da[106:114] # 17F:INS_GPS_Time
+        da2 = da[106:114]  # 17F:INS_GPS_Time
         ls1.append(da2)
 
     for i in r2:
         da = i[40:]
-        da2 = da[194:] # 146:最后7个元素
+        da2 = da[194:]  # 146:最后7个元素
         ls2.append(da2)
 
     j = 0
@@ -176,11 +226,13 @@ def log_rel():
     f3.close()
 
 if __name__ == '__main__':
-    path = 'log.txt'
-    log_0011(path)
+    # path = 'log.txt'
+    # log_0011(path)
     # log_146()
     # log_17F_v18()
     # log_17F_v19()
     # log_31B()
     # log_5B3()
+    # log_271()
+    log_5B8()
     # log_rel()

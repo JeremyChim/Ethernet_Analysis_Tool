@@ -14,6 +14,7 @@ from time import sleep
 from os import path as pa
 from os import mkdir
 from threading import Thread
+from random import randint
 
 import ttkbootstrap as ttk
 
@@ -25,6 +26,8 @@ import func.udp17F_v18 as u17F_v18
 import func.udp31B as u31B
 import func.udp146 as u146
 import func.udp5B3 as u5B3
+import func.udp5B8 as u5B8
+import func.udp271 as u271
 import func.rel as rel
 
 # 类
@@ -42,6 +45,8 @@ class app(ttk.Frame):
         self.iv_31b = ttk.IntVar(value=0)   # 31B
         self.iv_rel = ttk.IntVar(value=0)   # rel
         self.iv_5b3 = ttk.IntVar(value=0)   # 5B3
+        self.iv_5b8 = ttk.IntVar(value=0)  # 5B8
+        self.iv_271 = ttk.IntVar(value=0)  # 271
         self.iv_pg = ttk.IntVar(value=0)    # 进度条
 
         # 外框
@@ -85,11 +90,15 @@ class app(ttk.Frame):
         self.tm = ttk.Combobox(f, width=15, values=tn, textvariable=sv)
         self.tm.current(i) # 初始主题
         b2 = ttk.Button(f, text='应用', command=self.fun_theme)
+        b3 = ttk.Button(f, text='☀', command=self.fun_theme_day)
+        b4 = ttk.Button(f, text='☾', command=self.fun_theme_night)
 
-        b.pack(side=LEFT, padx=(0,10))
-        b2.pack(side=RIGHT, padx=(10,0))
-        self.tm.pack(side=RIGHT, padx=(10,0))
-        l.pack(side=RIGHT, padx=(10,0))
+        b.pack(side=LEFT, padx=(0, 0))
+        b3.pack(side=LEFT, padx=(10, 0))
+        b4.pack(side=LEFT, padx=(10, 0))
+        b2.pack(side=RIGHT, padx=(10, 0))
+        self.tm.pack(side=RIGHT, padx=(10, 0))
+        l.pack(side=RIGHT, padx=(10, 0))
 
     def row_load(self):
         '''加载栏'''
@@ -125,17 +134,23 @@ class app(ttk.Frame):
         iv3 = self.iv_146
         iv4 = self.iv_rel
         iv5 = self.iv_5b3
+        iv6 = self.iv_5b8
+        iv7 = self.iv_271
 
         cb = ttk.Checkbutton(lf,text='17F', variable=iv, onvalue=1, offvalue=0)
         cb2 = ttk.Checkbutton(lf,text='31B', variable=iv2, onvalue=1, offvalue=0)
         cb3 = ttk.Checkbutton(lf,text='146', variable=iv3, onvalue=1, offvalue=0)
         cb4 = ttk.Checkbutton(lf, text='REL', variable=iv4, onvalue=1, offvalue=0)
         cb5 = ttk.Checkbutton(lf, text='5B3', variable=iv5, onvalue=1, offvalue=0)
+        cb6 = ttk.Checkbutton(lf, text='5B8', variable=iv6, onvalue=1, offvalue=0)
+        cb7 = ttk.Checkbutton(lf, text='271', variable=iv7, onvalue=1, offvalue=0)
 
         cb.pack(side=LEFT, padx=10)
         cb3.pack(side=LEFT, padx=10)
         cb2.pack(side=LEFT, padx=10)
         cb5.pack(side=LEFT, padx=10)
+        cb6.pack(side=LEFT, padx=10)
+        cb7.pack(side=LEFT, padx=10)
         cb4.pack(side=LEFT, padx=10)
 
     def row_exec(self):
@@ -163,6 +178,48 @@ class app(ttk.Frame):
                                '感谢各位同学和大佬的支持。^0^'
                                )
 
+
+    def fun_theme_day(self):
+        '''白天模式'''
+        s = ttk.Style()
+        a = randint(1, 10)
+
+        match a % 5:
+            case 0:
+                cb = 'minty'
+            case 1:
+                cb = 'united'
+            case 2:
+                cb = 'morph'
+            case 3:
+                cb = 'cosmo'
+            case 4:
+                cb = 'pulse'
+
+        s.theme_use(cb)
+        print(f'应用主题:{cb}')
+
+
+    def fun_theme_night(self):
+        '''夜间模式'''
+        s = ttk.Style()
+        a = randint(1, 10)
+
+        match a % 5:
+            case 0:
+                cb = 'darkly'
+            case 1:
+                cb = 'superhero'
+            case 2:
+                cb = 'solar'
+            case 3:
+                cb = 'cyborg'
+            case 4:
+                cb = 'vapor'
+
+        s.theme_use(cb)
+        print(f'应用主题:{cb}')
+
     def fun_theme(self):
         '''应用主题'''
         s = ttk.Style()
@@ -187,13 +244,15 @@ class app(ttk.Frame):
         io_146 = self.iv_146.get()
         io_31b = self.iv_31b.get()
         io_5b3 = self.iv_5b3.get()
+        io_5b8 = self.iv_5b8.get()
+        io_271 = self.iv_271.get()
         io_rel = self.iv_rel.get()
 
-        sum = io_17f + io_146 + io_31b + io_5b3 + io_rel
-        mul = sum*2
-        pg_val = int(60/mul)
+        sum = io_17f + io_146 + io_31b + io_5b3 + io_5b8 + io_271 + io_rel
+        mul = sum * 2
+        pg_val = int(60 / mul)
 
-        update = self.fun_pg_update # 进度条更新函数
+        update = self.fun_pg_thread  # 进度条更新函数
         b = self.b  # 按钮
 
         print(f'当前设定:\n'
@@ -243,6 +302,14 @@ class app(ttk.Frame):
             fl.log_5B3(), update(pg_val, '5B3数据处理中...')
             u5B3.csv(), update(pg_val, '5B3生成处理中...')
 
+        if io_5b8 == 1:
+            fl.log_5B8(), update(pg_val, '5B8数据处理中...')
+            u5B8.csv(), update(pg_val, '5B8生成处理中...')
+
+        if io_271 == 1:
+            fl.log_271(), update(pg_val, '271数据处理中...')
+            u271.csv(), update(pg_val, '271生成处理中...')
+
         if io_rel == 1:
             if not pa.exists('cache/log_17F.txt'):
                 match ver:
@@ -276,12 +343,23 @@ class app(ttk.Frame):
         self.iv_pg.set(0)   # 进度条归零
         b['text'] = '生成csv'
 
+
     def fun_thread(self):
         '''建立线程，防假死'''
         fun = self.fun_exec
         t1 = Thread(target=fun)
-        print('线程启动')
+        print('主线程启动...')
         t1.start()
+
+
+    def fun_pg_thread(self, pg_val, text):
+        '''进度条更新进程'''
+        fun = self.fun_pg_update
+        th = Thread(target=fun, args=[pg_val, text])
+        print(f'子线程启动...{text}')
+        th.start()
+        th.join()
+
 
     def fun_pg_update(self, pg_val, text):
         '''新的进度条'''
@@ -296,7 +374,6 @@ class app(ttk.Frame):
             self.pb.update()
             self.b['text'] = f'进度:{val}% {text}'  # 修改按钮文本
             sleep(0.01)
-        sleep(1)
 
     # def fun_pg_update(self, i, j, l):
     #     '''进度条更新'''
@@ -319,6 +396,6 @@ if __name__ == '__main__':
     win = ttk.Window('----------调试窗口----------','litera')
     win.geometry('+640+340')
     app(win)
-    l = ttk.Label(text='----------版本：Demo----------')
-    l.pack(side=RIGHT, padx=10)
+    lab = ttk.Label(text='----------版本：Demo----------')
+    lab.pack(side=RIGHT, padx=10)
     win.mainloop()

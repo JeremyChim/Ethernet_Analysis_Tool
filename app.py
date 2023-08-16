@@ -10,9 +10,9 @@ from ttkbootstrap import Window
 from ttkbootstrap import Label
 from ttkbootstrap.constants import RIGHT
 
-w = Window('以太网报文解析工具','journal')
-w.geometry('+640+340')
-ui.app(w)
-l = Label(text='版本：v2.70')
-l.pack(side=RIGHT, padx=10)
-w.mainloop()
+win = Window('以太网报文解析工具', 'journal')
+win.geometry('+640+340')
+ui.app(win)
+lab = Label(text='版本：v2.80')
+lab.pack(side=RIGHT, padx=10)
+win.mainloop()

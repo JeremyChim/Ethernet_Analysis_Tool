@@ -1,7 +1,7 @@
 import openpyxl
 
-sheet = 2 # sheet号
-row = 38 # 最后一行号
+sheet = 5  # sheet号
+row = 15  # 最后一行号
 
 wb = openpyxl.load_workbook('config.xlsx')
 sheet -= 1
